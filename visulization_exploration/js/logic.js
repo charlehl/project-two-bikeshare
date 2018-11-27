@@ -36,33 +36,44 @@ var streets = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?
     layers: [light]
   });
 
+var stationArray= [];
 // Create the createMap function
 // var bikeMarkers = [];
 link = "https://bikeshare.metro.net/stations/json/";
 d3.json(link, function(data) {
   // Creating a geoJSON layer with the retrieved data
-  L.geoJson(data, {
+  var bikeStations = L.geoJson(data, {
     // Called on each feature
     onEachFeature: function(feature, layer) {
+      layer.on({
+        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
+        click: function(event) {
+          console.log(this.feature.geometry.coordinates);
+          stationArray.push(this.feature.geometry.coordinates);
+        }
+      });
        // Giving each feature a pop-up with information pertinent to it
       layer.bindPopup("<h3>" + feature.properties.addressStreet + "</h3>"
                        + "<hr> <h3>" + feature.properties.bikesAvailable + "</h3>");
     }
   }).addTo(myMap);
+  // var controlLayers = L.control.layers();
+  // controlLayers.addOverlay(bikeStations, "Bike Stations");
 
+  //getRoute();
 });
 //county_link = "http://boundaries.latimes.com/1.0/boundary-set/la-county-neighborhoods-v5/?format=geojson"
 newlink ="http://s3-us-west-2.amazonaws.com/boundaries.latimes.com/archive/1.0/boundary-set/la-county-neighborhoods-v5.geojson"
 d3.json(newlink, function(request){
-  console.log(request);
-  L.geoJson(request, {
+  //console.log(request);
+  var boundaries = L.geoJson(request, {
     // Style each feature (in this case a neighborhood)
     style: function(feature) {
       return {
         color: "black",
         // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
         fillColor: "lightblue",
-        fillOpacity: 0.5,
+        fillOpacity: 0.2,
         weight: 1.5
       };
     },
@@ -94,39 +105,62 @@ d3.json(newlink, function(request){
 
     }
   }).addTo(myMap);
+  var overlayMaps = {
+    Boundaries: boundaries
+  };
+  var controlLayers = L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+  }).addTo(myMap);
 });
 // myMap.on('load', function() {
 //   getRoute();
 // });
-
-// function getRoute() {
-//   var start = [-118.25854, 34.0485];
-//   var end = [-118.27779, 33.73352];
-//   var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&access_token=' + API_KEY;
-//   console.log(directionsRequest);
-//   $.ajax({
-//     method: 'GET',
-//     url: directionsRequest,
-//   }).done(function(data) {
-//     var route = data.routes[0].geometry;
-//     console.log(route);
-//     myMap.addLayer({
-//       id: 'route',
-//       type: 'line',
-//       source: {
-//         type: 'geojson',
-//         data: {
-//           type: 'Feature',
-//           geometry: route
-//         }
-//       },
-//       paint: {
-//         'line-width': 2
-//       }
-//     });
-//     // this is where the code from the next step will go
-//   });
-// }
+// duration is seconds
+// distance is meters
+var routeLayer;
+function getRoute() {
+  if(stationArray.length >= 2) {
+    // var start = [-118.25854, 34.0485];
+    // var end = [-118.27779, 33.73352];
+    //$("#navDirections").text("test");
+    var start = stationArray.pop();
+    var end = stationArray.pop();
+    var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&steps=true&access_token=' + API_KEY;
+    var directions = "";
+    
+    //console.log(directionsRequest);
+    if(routeLayer){
+      myMap.removeLayer(routeLayer);
+      $("#navDirections").html("");
+    }
+    $.ajax({
+      method: 'GET',
+      url: directionsRequest,
+    }).done(function(data) {
+      var route = data.routes[0].geometry;
+      //console.log(data);
+      
+      var myStyle = {
+        "color": "#ff7800",
+        "weight": 5,
+        "opacity": 0.65
+      };
+    
+      routeLayer = L.geoJSON(route, {
+          style: myStyle
+      }).addTo(myMap);
+      console.log(data.routes[0].legs[0]);
+      var steps = data.routes[0].legs[0].steps;
+      for(i=0; i < steps.length; i++){
+        //console.log(steps[i].maneuver.instruction + " "+ (steps[i].distance/1600).toFixed(2) + " miles");
+        directions += steps[i].maneuver.instruction + " "+ (steps[i].distance/1600).toFixed(2) + " miles<hr>"
+      }
+      $("#navDirections").html(directions);
+    });
+  }
+    // this is where the code from the next step will go
+    stationArray = [];
+}
 
 // d3.json(url, function (request) {
 //     console.log(request);
