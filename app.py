@@ -8,13 +8,13 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-	bike_rides = mongo.db.rides.find_all()
+	bike_rides = mongo.db.bike_trip.find_all()
 	return render_template('index.html', bike_rides= bike_rides)
 
 
 @app.route('/visualizations')
 def summary():
-	return render_template('')
+	return render_template('', bike_rides = bike_rides)
 
 
 if __name__ == "__main__" :
