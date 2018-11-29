@@ -11,14 +11,7 @@ def index():
 	bike_rides = mongo.db.bike_trip.find_all()
 	return render_template('index.html', bike_rides= bike_rides)
 
-@app.route('/about')
-def about():
-	return render_template('about.html')
 
-@app.route('/visualizations')
-def summary():
-	bike_rides = mongo.db.bike_trip.find_all()
-	return render_template('', bike_rides = bike_rides)
 
 
 if __name__ == "__main__" :
