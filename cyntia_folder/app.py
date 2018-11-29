@@ -14,6 +14,11 @@ app = Flask(__name__)
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 
+@app.route("/")
+def index():
+    """Return the homepage."""
+    return render_template("index.html")
+
 @app.route("/stations")
 def stations():
     """Return a list of stations."""
@@ -31,9 +36,6 @@ def plots():
 	for trip in bike_trip:
 	    full_dict.append(trip)
 	df = pd.DataFrame(full_dict)
-	#print("Full DataFrame loaded")
-	#print(df)
-	#print("---------------------")
 
 	one_way_df = df.loc[df["trip_route_category"] == "One Way", :]
 	data_for_plots = one_way_df[["trip_id","duration", "plan_duration", "passholder_type","start_time"]]
@@ -47,8 +49,6 @@ def plots():
 	data_for_plots["weekday"] = weekday
 
 	data_dict = data_for_plots.to_dict('records')
-	#print("dictionary with data to be plotted")
-	#print(data_dict)
 
 	return jsonify(data_dict)
 if __name__ == "__main__":

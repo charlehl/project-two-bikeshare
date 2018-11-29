@@ -67,13 +67,21 @@ function updateYValuesText(rectGroup, newYScale, chosenYAxis, attr) {
 // Use the list of sample names to populate the select options
 d3.json("/plots").then((plotData) => {
   console.log(plotData)
-  plotData.forEach((data) => {
+    plotData.forEach((data) => {
     data.trip_id = data.trip_id;
     data.duration =+ data.duration;
     data.plan_duration =+ data.plan_duration;
     data.passholder_type = data.passholder_type;
     data.weekday = data.weekday
       });
+
+    var weekdayData = d3.nest()
+      .key(function(d) {return d.weekday;})
+      .rollup(function(d) {
+        return d3.sum(d,function(g) {return g.duration;});
+      }).entries(plotData);
+
+    console.log(weekdayData)
   var xLinearScale = xScale(plotData, chosenXAxis);
   var yLinearScale = yScale(plotData, chosenYAxis);
 
@@ -107,12 +115,12 @@ d3.json("/plots").then((plotData) => {
   
 
 
-function optionChanged(newSample) {
-  // Fetch new data each time a new sample is selected
-  buildCharts(newSample);
-  buildMetadata(newSample);
-}
+// function optionChanged(newSample) {
+//   // Fetch new data each time a new sample is selected
+//   buildCharts(newSample);
+//   buildMetadata(newSample);
+// }
 
 // Initialize the dashboard
-init();
+//init();
 
