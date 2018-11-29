@@ -3,7 +3,7 @@ var mapZoomLevel = 12;
 var routeLayer;
 var stationArray= [];
 var myLocation;
-var myLocationCoords;
+var myLocationCoords = [];
 
 var light = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -62,6 +62,10 @@ myMap.on('click', function(e) {
   if(myLocation) {
     myMap.removeLayer(myLocation);
   }
+  if(routeLayer){
+    myMap.removeLayer(routeLayer);
+    //$("#navDirections").html("");
+  }
   myLocationCoords = [e.latlng.lng, e.latlng.lat];
   myLocation = L.marker(e.latlng, {icon: myLocationIcon}).addTo(myMap)
   //console.log(myLocation);
@@ -71,6 +75,8 @@ myMap.on('click', function(e) {
 // var bikeMarkers = [];
 link = "https://bikeshare.metro.net/stations/json/";
 d3.json(link, function(data) {
+  //console.log(myMap.getBounds().getSouthWest());
+  //console.log(myMap.getBounds().getNorthEast());
   // Creating a geoJSON layer with the retrieved data
   var bikeStations = L.geoJson(data, {
     pointToLayer: function(feature, latlng) {
@@ -157,7 +163,8 @@ d3.json(link, function(data) {
 // distance is meters
 
 function getRoute() {
-  if(myLocation && stationArray.length >= 1) {
+  console.log(myLocationCoords);
+  if(myLocationCoords.length >= 1 && stationArray.length >= 1) {
     var start = myLocationCoords;
     var end = stationArray.pop();
     var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&steps=true&access_token=' + API_KEY;
@@ -218,6 +225,10 @@ function onLocationFound(e) {
   if(myLocation) {
     myMap.removeLayer(myLocation);
   }
+  if(routeLayer){
+    myMap.removeLayer(routeLayer);
+    //$("#navDirections").html("");
+  }
   myLocationCoords = [e.latlng.lng, e.latlng.lat];
 
   myLocation = L.marker(e.latlng, {icon: myLocationIcon}).addTo(myMap)
@@ -227,3 +238,12 @@ function onLocationFound(e) {
 }
 myMap.on('locationfound', onLocationFound);
 
+function goToBikeLocation() {
+  myMap.fitBounds([[
+      33.99575015925125,
+      -118.50162506103517
+  ], [
+      34.10867772256663,
+      -117.98561096191408
+  ]]);
+}
