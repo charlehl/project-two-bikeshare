@@ -78,7 +78,7 @@ d3.json("/plots").then((plotData) => {
     var weekdayData = d3.nest()
       .key(function(d) {return d.weekday;})
       .rollup(function(d) {
-        return d3.sum(d,function(g) {return g.duration;});
+        return d3.sum(d, function(g) {return g.duration;});
       }).entries(plotData);
 
     console.log(weekdayData)

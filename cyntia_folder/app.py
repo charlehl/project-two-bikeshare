@@ -42,11 +42,15 @@ def plots():
 	data_for_plots["passholder_type"] = data_for_plots["passholder_type"].replace({'Walk-up': 'One Day Pass'})
 
 	dates = data_for_plots["start_time"]
+	weekday_list = []
+
 	for date in dates:
 	    datetime_object = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+	    #print(datetime_object)
 	    
 	    weekday = calendar.day_name[datetime_object.weekday()] 
-	data_for_plots["weekday"] = weekday
+	    weekday_list.append(weekday)
+	data_for_plots["weekday"] = weekday_list  
 
 	data_dict = data_for_plots.to_dict('records')
 
