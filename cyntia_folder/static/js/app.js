@@ -97,19 +97,18 @@ d3.json("/plots").then((plotData) => {
 	  .attr("width", x.bandwidth())
 	  .attr("height", function(d) { return height - y(d.values.passholder_type); });
 
-	    var fruitMenu = d3.select("#fruitDropdown")
-
-    PassesMenu
+	var menu = d3.select("#dropdown")
+    menu
 		.append("select")
 		.selectAll("option")
         .data(nest)
         .enter()
         .append("option")
         .attr("value", function(d){
-            return d.values.passholder_type;
+            return d.values.value;
         })
         .text(function(d){
-            return d.values.passholder_type;
+            return d.values.value;
         })
 
 
