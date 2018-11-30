@@ -1,70 +1,29 @@
-var url = "https://bikeshare.metro.net/stations/json/"
+// Set the margins
+var margin = {top: 60, right: 100, bottom: 20, left: 80},
+  width = 850 - margin.left - margin.right,
+  height = 370 - margin.top - margin.bottom;
 
-var svgWidth = 1000;
-var svgHeight = 500;
+// Parse the month variable
+var parseWeekday = d3.timeParse("%A");
+var formatWeekday= d3.timeFormat("%A");
+
+// Set the ranges
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1) 
+var y = d3.scaleLinear().range([height, 0]);
 
 
-var margin = {
-  top: 20,
-  right: 40,
-  bottom: 80,
-  left: 100
-}
+// Create the svg canvas in the "graph" div
+var svg = d3.select("#graph")
+        .append("svg")
+        .style("width", width + margin.left + margin.right + "px")
+        .style("height", height + margin.top + margin.bottom + "px")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform","translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "svg");
 
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
-var svg = d3.select("#bar")
-            .append("svg")
-            .attr("height", svgHeight)
-            .attr("width", svgWidth);
-
-var chartGroup = svg.append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-var chosenXAxis = "weekday";
-var chosenYAxis = "duration";
-
-function xScale(plotData, chosenXAxis) {
-  var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(plotData, d => d[chosenXAxis])*.9, d3.max(plotData, d => d[chosenXAxis])*1.1])
-    .range([0, width]);
-  return xLinearScale;
-}
-function yScale(plotData, chosenYAxis) {
-  var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(plotData, d => d[chosenYAxis])])
-    .range([height,0]);
-  return yLinearScale;
- }
- function renderXAxes(newXScale, xAxis) {
-  var bottomAxis = d3.axisBottom(newXScale);
-  xAxis.transition()
-    .duration(500)
-    .call(bottomAxis);
-  return xAxis;
-}
-function renderYAxes(newYScale, yAxis) {
-  var leftAxis = d3.axisLeft(newYScale);
-  yAxis.transition()
-    .duration(500)
-    .call(leftAxis);
-  return yAxis;
-}
-function updateXValuesText(rectGroup,newXScale, chosenXAxis, attr) {
-  rectGroup.transition()
-  .duration(500)
-  .attr(attr, d => newXScale(d[chosenXAxis]))
-  return rectGroup;
-}
-function updateYValuesText(rectGroup, newYScale, chosenYAxis, attr) {
-  rectGroup.transition()
-  .duration(500)
-  .attr(attr, d => newYScale(d[chosenYAxis]))
-  return rectGroup;
-}
-
- 
-// Use the list of sample names to populate the select options
+// Retrieve database from route
 d3.json("/plots").then((plotData) => {
   console.log(plotData)
     plotData.forEach((data) => {
@@ -72,55 +31,88 @@ d3.json("/plots").then((plotData) => {
     data.duration =+ data.duration;
     data.plan_duration =+ data.plan_duration;
     data.passholder_type = data.passholder_type;
-    data.weekday = data.weekday
+    data.weekday = data.weekday;
       });
+  
+	// var nest = d3.nest()
+	//   .key(function(d){
+	//     return d.weekday;
+	//   })
+	//   .sortKeys(d3.ascending)
+	//   .rollup(function(leaves){
+	//  		return d3.sum(leaves, function(d) {return (d.duration)});
+	// 	})
+	//   .entries(plotData)
+	var nest = d3.nest()
+	  .key(function(d) { return d.weekday; })
+	  .key(function(d) { return d.passholder_type })
+	  .rollup(function(leaves){
+	 	return d3.sum(leaves, function(d) { return d.duration });
+	 })
+	  .entries(plotData)
 
-    var weekdayData = d3.nest()
-      .key(function(d) {return d.weekday;})
-      .rollup(function(d) {
-        return d3.sum(d, function(g) {return g.duration;});
-      }).entries(plotData);
+    console.log(nest)
+    // Scale the range of the data
+    x.domain(nest.map(function(d) { return d.key; }));
+    y.domain([0, d3.max(nest, function(d) { return d.values.value; })]);
+  
+    // Set up the x axis
+    var xaxis = svg.append("g")
+       .attr("transform", "translate(0," + height + ")")
+       .attr("class", "x axis")
+       .call(d3.axisBottom(x)
+       .tickSize(0, 0)
+       .tickSizeInner(0)
+       .tickPadding(10));
 
-    console.log(weekdayData)
-  var xLinearScale = xScale(plotData, chosenXAxis);
-  var yLinearScale = yScale(plotData, chosenYAxis);
+    // Add the Y Axis
+    var yaxis = svg.append("g")
+       .attr("class", "y axis")
+       .call(d3.axisLeft(y)
+          .ticks(5)
+          .tickSizeInner(0)
+          .tickPadding(6)
+          .tickSize(0, 0));
 
-  var bottomAxis = d3.axisBottom(xLinearScale);
-  var leftAxis = d3.axisLeft(yLinearScale);
+    // yaxis.select(".domain").style("display","none")
+  
+    // Add a label to the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - 60)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Duration in minutes")
+        .attr("class", "y axis label");
+  
+    // Draw the bars
+    svg.selectAll(".rect")
+      .data(nest)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+	  .attr("x", function(d) { return x(d.key); })
+	  .attr("y", function(d) { return y(d.values.value); })
+	  .attr("width", x.bandwidth())
+	  .attr("height", function(d) { return height - y(d.values.passholder_type); });
 
-  var xAxis = chartGroup.append("g")
-    .classed("x-axis", true)
-    .attr("transform", `translate(0, ${height})`)
-    .call(bottomAxis);
+	    var fruitMenu = d3.select("#fruitDropdown")
 
-  var yAxis = chartGroup.append("g")
-    .call(leftAxis);
-  var barSpacing = 10;
-
-
-  var rectGroup = chartGroup.selectAll("#bar")
-    .data(plotData)
-    .enter()
-    .append("rect")
-    .classed("bar", true)
-    .attr("width", 10)
-    .attr("height", d => d.duration)
-    .attr("x", (d,i) => i)
-    .attr("y", d => chartHeight - d.duration)
+    PassesMenu
+		.append("select")
+		.selectAll("option")
+        .data(nest)
+        .enter()
+        .append("option")
+        .attr("value", function(d){
+            return d.values.passholder_type;
+        })
+        .text(function(d){
+            return d.values.passholder_type;
+        })
 
 
-
-});
 
   
-
-
-// function optionChanged(newSample) {
-//   // Fetch new data each time a new sample is selected
-//   buildCharts(newSample);
-//   buildMetadata(newSample);
-// }
-
-// Initialize the dashboard
-//init();
-
+});
