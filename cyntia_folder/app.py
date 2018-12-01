@@ -7,12 +7,18 @@ import pprint
 from datetime import datetime
 import time
 import calendar
+<<<<<<< HEAD
 from flask import Flask,jsonify, render_template, request
+=======
+import json
+from flask import Flask,jsonify, render_template
+>>>>>>> 55a78183fb50dbf56c2c5ae82c6742ae76a8b70a
 
 app = Flask(__name__)
 
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
+url = "https://bikeshare.metro.net/stations/json/"
 
 @app.route("/")
 def index():
@@ -22,7 +28,7 @@ def index():
 @app.route("/stations")
 def stations():
     """Return a list of stations."""
-
+    """data = json.loads(url)"""
     return jsonify(list(df.columns)[2:])
 
 @app.route("/filter_data")
