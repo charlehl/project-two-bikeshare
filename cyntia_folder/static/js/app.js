@@ -23,48 +23,49 @@ var svg = d3.select("#graph")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")")
         .attr("class", "svg");
 
-var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
-d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
-  	//console.log(filtered_data)
-  	filtered_data.forEach((data) => {
-  		data.weekday = data.weekday;
-  		data.duration =+ data.duration;
-  		});
-	//Scale the range of the data
-	x.domain(filtered_data.map(function(d) { return d.weekday; }));
-	y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
-	//Set up the x axis
-	var xAxis = svg.append("g")
-	    .attr("transform", "translate(0," + height + ")")
-	    .attr("class", "x axis")
-	    .call(d3.axisBottom(x)
-	    .tickSize(0, 0)
-	    .tickSizeInner(0)
-	    .tickPadding(10));
+// var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
+// d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
+//   	//console.log(filtered_data)
+//   	filtered_data.forEach((data) => {
+//   		data.weekday = data.weekday;
+//   		data.duration =+ data.duration;
+//   		});
+// 	//Scale the range of the data
+// 	x.domain(filtered_data.map(function(d) { return d.weekday; }));
+// 	y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
+// 	//Set up the x axis
+// 	var xAxis = svg.append("g")
+// 	    .attr("transform", "translate(0," + height + ")")
+// 	    .attr("class", "x axis")
+// 	    .call(d3.axisBottom(x)
+// 	    .tickSize(0, 0)
+// 	    .tickSizeInner(0)
+// 	    .tickPadding(10));
 
-	// Add the Y Axis
-	var yaxis = svg.append("g")
-	    .attr("class", "y axis")
-	    .call(d3.axisLeft(y)
-	    .ticks(5)
-	    .tickSizeInner(0)
-	    .tickPadding(6)
-	    .tickSize(0, 0));
+// 	// Add the Y Axis
+// 	var yaxis = svg.append("g")
+// 	    .attr("class", "y axis")
+// 	    .call(d3.axisLeft(y)
+// 	    .ticks(5)
+// 	    .tickSizeInner(0)
+// 	    .tickPadding(6)
+// 	    .tickSize(0, 0));
   
-    // Add a label to the y axis
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - 60)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Rental Duration (minutes)")
-        .attr("class", "y axis label");
-}); 
-
+//     // Add a label to the y axis
+//     svg.append("text")
+//         .attr("transform", "rotate(-90)")
+//         .attr("y", 0 - 60)
+//         .attr("x", 0 - (height / 2))
+//         .attr("dy", "1em")
+//         .style("text-anchor", "middle")
+//         .text("Usage Volume (minutes)")
+//         .attr("class", "y axis label");
+// }); 
+var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
 
 function initialGraph (pass_type) {
-    var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
+	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
+    
 	d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
 	console.log(filtered_data)
 
@@ -72,6 +73,37 @@ function initialGraph (pass_type) {
   		data.weekday = data.weekday;
   		data.duration =+ data.duration;
   		});
+  		//Scale the range of the data
+		x.domain(filtered_data.map(function(d) { return d.weekday; }));
+		y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
+		//Set up the x axis
+		var xAxis = svg.append("g")
+		    .attr("transform", "translate(0," + height + ")")
+		    .attr("class", "x axis")
+		    .call(d3.axisBottom(x)
+		    .tickSize(0, 0)
+		    .tickSizeInner(0)
+		    .tickPadding(10));
+
+		// Add the Y Axis
+		var yaxis = svg.append("g")
+		    .attr("class", "y axis")
+		    .call(d3.axisLeft(y)
+		    .ticks(5)
+		    .tickSizeInner(0)
+		    .tickPadding(6)
+		    .tickSize(0, 0));
+	  
+	    // Add a label to the y axis
+	    svg.append("text")
+	        .attr("transform", "rotate(-90)")
+	        .attr("y", 0 - 60)
+	        .attr("x", 0 - (height / 2))
+	        .attr("dy", "1em")
+	        .style("text-anchor", "middle")
+	        .text("Usage Volume (minutes)")
+	        .attr("class", "y axis label");
+
   		var selectPassGroup = svg.selectAll(".passGroup")
             .data(filtered_data)
 	        .enter()
@@ -105,6 +137,14 @@ function filter_data(pass_type) {
 	  		data.weekday = data.weekday;
 	  		data.duration =+ data.duration;
 	  		});
+	  	y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
+	  	//Add the Y Axis
+		var yaxis = svg
+		    .call(d3.axisLeft(y)
+		    .ticks(5)
+		    .tickSizeInner(0)
+		    .tickPadding(6)
+		    .tickSize(0, 0));
 
 		var selectPassGroup = svg.selectAll(".passGroup")
             .data(filtered_data)
