@@ -44,7 +44,9 @@ def filter_data():
 
 	selection = df.loc[df['passholder_type'] == pass_type, :]    
 	grouped_df = selection[['weekday','duration']].groupby('weekday').sum()
-	weekday_df = grouped_df.reset_index()
+	index_reset = grouped_df.reset_index()
+	index_reset['weekday'] = pd.Categorical(index_reset['weekday'], categories=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday', 'Sunday'], ordered=True)
+	weekday_df = index_reset.sort_values('weekday')
 
 
 	return weekday_df.to_json(orient='records')
