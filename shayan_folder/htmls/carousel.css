@@ -1,0 +1,356 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+body {
+  padding-bottom: 40px;
+  color: #083b47;
+  background:#d1e1ed;
+}
+
+h3{
+  color: #083b47;
+}
+
+/* CUSTOMIZE THE NAVBAR
+-------------------------------------------------- */
+
+/* Special class on .container surrounding .navbar, used for positioning it into place. */
+
+.navbar{
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: -150px;
+  margin-left: -150px;
+  padding-bottom: 10;
+  padding-left:20px;
+  color: #d1e1ed;
+  background:#083b47;
+  border-color: #083b47;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover{
+  color: #b5ce05;
+}
+
+.navbar-inverse .navbar-nav > .open > a{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu > li > a{
+  color: #083b47;
+  background:#d1e1ed;
+}
+
+.dropdown-menu > li > a:hover{
+  color:#083b47;
+  background:#b5ce05;
+}  
+
+.navbar-inverse .navbar-brand{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-brand:hover{
+  color: #b5ce05;
+}
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+
+.carousel{
+  height: 500px;
+  margin-bottom: 10px;
+  margin-top: 10;
+  padding-top: 100;
+  padding-bottom:20px;
+}
+
+.carousel-control.left, .carousel-control.right{
+  background-image:none !important;
+}
+
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption{
+  z-index: 10;
+  padding-bottom: 0;
+  text-align:left;
+  color: #083b47;
+  display: block;
+  float: center;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item{
+  height: 500px;
+}
+
+.carousel-inner > .item > img{
+  position: absolute;
+  top: 20px;
+  width: 60%;
+  height: 90%;
+  left: 20%;
+  right: 25%;
+  object-fit: contain;
+}
+
+.text{
+  padding-left: 20%;
+  padding-right: 20%;
+  text-align: justify;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 10px;
+    text-indent: 0;
+    cursor: pointer;
+    border: none;
+    background-color: #d1e1ed;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5);    
+}
+
+.carousel-indicators .active {
+    width: 10px;
+    height: 10px;
+    margin: 10px;
+    background-color: #083b47;
+}
+
+.bs-example{
+    width: 100%;
+    height: 100%;
+}
+
+.members{
+  float:center;
+}
+
+.bar {
+  fill: green;
+}
+
+/*.bar:hover {
+  fill: red;
+}*/
+
+.tooltip {
+  display: none;
+  position: absolute;
+  width: 80px;
+  height: 30px;
+  padding: 2px;
+  font: 12px sans-serif;
+  text-align: center;
+  background: #083b47;
+  border: 0;
+  border-radius: 10px;
+}
+
+.about{
+    text-align:justify;
+    font-size:16px;
+}
+
+.strong{
+    color: #ff00dc;
+}
+
+.interests{
+  float:right;
+}
+
+.skills{
+  float:left;
+}
+
+.education{
+  text-align:justify;
+  font-size:16px;
+  padding-left: 1px;
+}
+
+.h-edu{
+  text-align:justify;
+  padding-left: 1px;
+}
+
+.edu-footer{
+  padding-left: 220px;
+}
+
+.backtotop{
+  padding-right: 220px;
+}
+
+.jobs{
+  text-align:justify;
+  font-size:20px;
+}
+
+.backtotop2 {
+  padding-right: 100px;
+}
+
+.video{
+  float:center;
+}
+
+.zarrinab{
+  padding-left: 2%;
+}
+
+.zarrinab-text{
+  padding-left: 6%;
+}
+
+.fanavaran-pic{
+  padding-left: 15%;
+}
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4{
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.marketing h2{
+  font-weight: normal;
+}
+
+.marketing .col-lg-4 p{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider{
+  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading{
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.contact-text{
+  text-align:center;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (max-width: 992px){
+  /* Navbar positioning foo */
+
+  .navbar{
+  margin-top: 0;
+  margin-right: -20px;
+  margin-left: -20px;
+  padding-left: 20px;
+  }
+
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a{
+    color: #083b47;
+    background:#d1e1ed;
+  }
+
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover{
+    color: #083b47;
+    background:#b5ce05;
+  }
+
+  .navbar-toggle{
+    color: #d1e1ed;
+    border-color:#083b47;
+  }
+
+  .navbar-inverse .navbar-toggle{
+    color: #d1e1ed;
+    border-color:#083b47;
+  }
+
+  .navbar-inverse .navbar-toggle:hover{
+    color: #d1e1ed;
+    border-color:#083b47;
+    background-color: #b5ce05;
+  }
+
+  .navbar-inverse .navbar-toggle:focus{
+    color: #d1e1ed;
+    border-color:#083b47;
+    background-color: #083b47;
+  }
+
+  .navbar-inverse .navbar-toggle .icon-bar{
+    background-color: #d1e1ed;
+  }
+
+  /* Bump up size of carousel content */
+  /*.carousel-caption p {
+
+    margin-bottom: 0;
+    font-size: 12px;
+    z-index: 10;
+    padding-left: -100px;
+
+    padding-right: 0;
+    padding-bottom: 0;
+    text-align:justify;
+  }*/
+
+  .carousel-caption {
+  z-index: 10;
+  margin:0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  text-align:justify;
+  }
+
+  .carousel-inner > .item > img {
+    position: absolute;
+    top: 30px;
+    bottom: 112px;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    right: 25%;
+  }
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+}
+
+/*@media (min-width: 992px) {
+  .featurette-heading {
+    margin-top: 120px;
+  }
+}
