@@ -23,95 +23,17 @@ var svg = d3.select("#graph")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")")
         .attr("class", "svg");
 
-// Retrieve database from route
-d3.json("/plots").then((plotData) => {
-  console.log(plotData)
-    plotData.forEach((data) => {
-    data.trip_id = data.trip_id;
-    data.duration =+ data.duration;
-    data.plan_duration =+ data.plan_duration;
-    data.passholder_type = data.passholder_type;
-    data.weekday = data.weekday;
-      });
-  
-	// var nest = d3.nest()
-	//   .key(function(d){
-	//     return d.weekday;
-	//   })
-	//   .sortKeys(d3.ascending)
-	//   .rollup(function(leaves){
-	//  		return d3.sum(leaves, function(d) {return (d.duration)});
-	// 	})
-	//   .entries(plotData)
-	var nest = d3.nest()
-	  .key(function(d) { return d.weekday; })
-	  .key(function(d) { return d.passholder_type })
-	  .rollup(function(leaves){
-	 	return d3.sum(leaves, function(d) { return d.duration });
-	 })
-	  .entries(plotData)
+function filter_data () {
+var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value
+//console.log(`The value of k is: ${pass_type}`)
 
-    console.log(nest)
-    // Scale the range of the data
-    x.domain(nest.map(function(d) { return d.key; }));
-    y.domain([0, d3.max(nest, function(d) { return d.values.value; })]);
-  
-    // Set up the x axis
-    var xaxis = svg.append("g")
-       .attr("transform", "translate(0," + height + ")")
-       .attr("class", "x axis")
-       .call(d3.axisBottom(x)
-       .tickSize(0, 0)
-       .tickSizeInner(0)
-       .tickPadding(10));
-
-    // Add the Y Axis
-    var yaxis = svg.append("g")
-       .attr("class", "y axis")
-       .call(d3.axisLeft(y)
-          .ticks(5)
-          .tickSizeInner(0)
-          .tickPadding(6)
-          .tickSize(0, 0));
-
-    // yaxis.select(".domain").style("display","none")
-  
-    // Add a label to the y axis
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - 60)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Duration in minutes")
-        .attr("class", "y axis label");
-  
-    // Draw the bars
-    svg.selectAll(".rect")
-      .data(nest)
-      .enter()
-      .append("rect")
-      .attr("class", "bar")
-	  .attr("x", function(d) { return x(d.key); })
-	  .attr("y", function(d) { return y(d.values.value); })
-	  .attr("width", x.bandwidth())
-	  .attr("height", function(d) { return height - y(d.values.passholder_type); });
-
-	var menu = d3.select("#dropdown")
-    menu
-		.append("select")
-		.selectAll("option")
-        .data(nest)
-        .enter()
-        .append("option")
-        .attr("value", function(d){
-            return d.values.value;
-        })
-        .text(function(d){
-            return d.values.value;
-        })
-
-
-
-  
+// pass pass_type value to flask
+d3.json(`/filter_data?pass_type=${pass_type}`).then((filter_data) => {
+  		console.log(filter_data)
+  		filter_data.forEach((data) => {
+  			data.weekday = data.weekday;
+  			data.duration =+ data.duration;
+  		});
 });
+}
+filter_data("Monthly Pass");
