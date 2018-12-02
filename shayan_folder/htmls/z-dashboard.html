@@ -30,10 +30,18 @@
 	    <!-- Custom styles for this template -->
 	    <link href="carousel.css" rel="stylesheet">
 
+		<!-- To Run Json, Plotly, and Tooltip -->
+	    <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+
     </head>
 <!-- NAVBAR
 ================================================== -->
     <body>
+    	<script type="text/javascript" src="Resources/json-js/stations.js"></script>
 	    <div class="navbar-wrapper">
 	      	<div class="container">
 		      	<div class="row">
@@ -56,7 +64,7 @@
 				                	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plots<span class="caret"></span></a>
 				                  	<ul class="dropdown-menu">
 					                    <li><a href="z-plot1.html">Plot1</a></li>
-					                    <li><a href="z-jsonplots.html">JSON Plots</a></li>     
+					                    <li><a href="z-plot2.html">JSON Plots</a></li>      
 				                  	</ul>
 				                </li>
 					        	<li><a href="z-members.html">Team Members</a></li>
@@ -68,36 +76,39 @@
 	      	</div>
 	    </div>
 
+	    <br><br>
+
 	    <!-- Marketing messaging and featurettes
 	    ================================================== -->
 	    <!-- Wrap the rest of the page in another container to center all the content. -->
-	    <br><br><br><br>
-
 	    <div class="container marketing">
 
-	      <!-- START THE FEATURETTES -->
+		  <!-- START THE FEATURETTES -->
 
 	      <div class="row featurette">
-	        <div class="col-lg-9 col-lg-push-3 col-md-9 col-md-push-3 col-sm-9 col-sm-push-3 col-xs-9 col-xs-push-3">
-	          <h2 class="featurette-heading">Hobbies</h2>
-	          <p class="lead">I enjoy designing and building tools or gifts via 3D print technology, backgammon, jugging, swimming and canoeing.</p>
+	        <div class="col-lg-pull-1 col-lg-10 col-lg-push-1 col-md-pull-1 col-md-10 col-md-push-1 col-sm-pull-1 col-sm-10 col-sm-push-1 col-xs-pull-1 col-xs-10 col-xs-push-1">
+	          <h3 class="featurette-heading"><strong>GeoJson Sample Results</strong></h3>
+	          <p class="lead">
+	          		As you can see our sample results from the GeoJSON data is demonstrated as followed:
+			  </p>
 	        </div>
-	        <div class="col-lg-3 col-lg-pull-9 col-md-3 col-md-pull-9 col-sm-3 col-sm-pull-9 col-xs-3 col-xs-pull-9">
-	          <img class="featurette-image img-responsive center-block" src="Resources/Hobbies/01.png" alt="hobbies image">
-	        </div>
-	      </div>
+	      </div>		  
+		  <br><br><br><br><br><br>
+
+		  <div id="svg-area"></div>
+
+		  <br><br><br><br><br><br>
 
 	      <!-- /END THE FEATURETTES -->
-
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-	    <!-- FOOTER -->
-	    <div>
-	      <footer>
-	        <p>&copy; 2018 Made by UCI Group 7 &middot; <a target="_blank" href="https://help.github.com/articles/github-terms-of-service/">Terms</a> &middot; <a target="_blank" href="https://help.github.com/articles/github-privacy-statement/"">Privacy</a></p>
-	      </footer>
+		  
+	      <!-- FOOTER -->
+		  <div>
+		    <footer>
+		      	<p class="pull-right backtotop2"><a href="z-plot2.html">Back to top</a></p>
+		        <p>&copy; 2018 Made by UCI Group 7 &middot; <a target="_blank" href="https://help.github.com/articles/github-terms-of-service/">Terms</a> &middot; <a target="_blank" href="https://help.github.com/articles/github-privacy-statement/"">Privacy</a></p>
+		    </footer>
+		  </div>
 	    </div><!-- /.container -->
-
 
 	    <!-- Bootstrap core JavaScript
 	    ================================================== -->

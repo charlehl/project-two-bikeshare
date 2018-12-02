@@ -31,7 +31,7 @@ d3.json(url, function(error, response) {
 
   // Define SVG area dimensions
   var svgWidth = 1100;
-  var svgHeight = 330;
+  var svgHeight = 530;
 
   // Define the chart's margins as an object
   var chartMargin = {
@@ -67,7 +67,7 @@ d3.json(url, function(error, response) {
 
   // define the horizontal scales with a padding of 0.1 (10%) for x axis
   var xBandScale = d3.scaleBand()
-    .domain(response.features.map(d => d.properties.name))
+    .domain(response.features.map(d => d.properties.kioskId))
     .range([0, chartWidth])
     .padding(0.1);
 
@@ -86,79 +86,44 @@ d3.json(url, function(error, response) {
 
   chartGroup.append("g")
     .attr("transform", `translate(0, ${chartHeight})`)
-    .call(bottomAxis);
+    .call(bottomAxis)
+    .selectAll("text")  
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-90)");
 
+  // Tooltip
+  var toolTip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([50, 120])
+    .style("color", "#083b47")
+    .html(function(d) {
+      // console.log(d);
+      return (`Station Name: ${d.properties.name}
+        <br>ID: ${d.properties.kioskId}
+        <br>Station Address: ${d.properties.addressStreet}
+        <br>Available Bikes: ${d.properties.bikesAvailable}
+        <br>Available Docks: ${d.properties.docksAvailable}
+        <br>Status: ${d.properties.kioskPublicStatus}
+        <br>Opens @: ${d.properties.openTime}
+        <br>Closes @: ${d.properties.closeTime}`);
+    });
 
-//   var barSpacing = 1; // desired space between each bar
-//   var scaleY = 10; // 10x scale on rect height
-
-//   // Create a 'barWidth' variable so that the bar chart spans the entire chartWidth.
-//   var barWidth = (chartWidth - (barSpacing * (response.features.length - 1))) / response.features.length;
-
-//   // Create code to build the bar chart using the response.features.
-//   chartGroup.selectAll(".bar")
-//     .data(response.features)
-//     .enter()
-//     .append("rect")
-//     .classed("bar", true)
-//     .attr("width", d => barWidth)
-//     .attr("height", d => d.properties.bikesAvailable * scaleY)
-//     .attr("x", (d, i) => i * (barWidth + barSpacing))
-//     .attr("y", d => chartHeight - d.properties.bikesAvailable * scaleY);
+  // Create the tooltip in chartGroup.
+  chartGroup.call(toolTip);
 
   chartGroup.selectAll(".bar")
     .data(response.features)
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("x", d => xBandScale(d.properties.name))
+    .attr("x", d => xBandScale(d.properties.kioskId))
     .attr("y", d => yLinearScale(d.properties.bikesAvailable))
     .attr("width", xBandScale.bandwidth())
-    .attr("height", d => chartHeight - yLinearScale(d.properties.bikesAvailable));
-
-      // Tooltip
-  var toolTip = d3.tip()
-    .attr("class", "tooltip")
-    .offset([80, -60])
-    .html(function(d) {
-      console.log(d);
-      // for (var i=0; i<d.length; i++) {
-      return (`Station Name: ${d.name}
-        <br>Station Address: ${d.addressStreet}
-        <br>Available Bikes: ${d.bikesAvailable}
-        <br>Available Docks: ${d.docksAvailable}
-        <br>Status: ${d.kioskPublicStatus}
-        <br>Opens @: ${d.openTime}
-        <br>Closes @: ${d.closeTime}`);
-      // }
-    });
-
-  // Create the tooltip in chartGroup.
-  chartGroup.call(toolTip);
-
-  // Create "mouseover" event listener to display tooltip
-  chartGroup.on("mouseover", function(d) {
-      d3.select(this).style("stroke", "orange")
-        toolTip.show(d, this);
-    })
-
-    // Step 1: Append a div to the body to create tooltips, assign it a class
-  // =======================================================
-  // var toolTip = d3.select("body").append("div")
-  //   .attr("class", "tooltip");
-
-  // // Step 2: Add an onmouseover event to display a tooltip
-  // // ========================================================
-  // chartGroup.on("mouseover", function(d, i) {
-  //   toolTip.style("display", "block");
-  //   toolTip.html(`Station Name: <strong>${d[i].properites.name}</strong>`);
-  //     // .style("left", d3.event.pageX + "px")
-  //     // .style("top", d3.event.pageY + "px");
-  //   })
-    // Step 3: Add an onmouseout event to make the tooltip invisible
-    .on("mouseout", function() {
-      toolTip.style("display", "none");
-    });
+    .attr("height", d => chartHeight - yLinearScale(d.properties.bikesAvailable))
+    .on('mouseover', toolTip.show)
+    .on('mouseout', toolTip.hide);
 
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
@@ -170,9 +135,7 @@ d3.json(url, function(error, response) {
 
   chartGroup.append("text")
     .attr("transform", `translate(${chartWidth / 2 - 50}, ${chartHeight + chartMargin.top})`)
-    // .attr("class", "axisText")
-    .attr("tickangle", "rotate(-90)")
-    .text("Stations Names");
+    .text("Stations Names")
 
 });
 

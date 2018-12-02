@@ -9,7 +9,7 @@
 	    <meta name="author" content="">
 	    <link rel="icon" href="Resources/carousel resources/favicon.ico">
 
-	    <title>Map</title>
+	    <title>Dashboard</title>
 
 	    <!-- Bootstrap core CSS -->
 	    <link href="Resources/carousel resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,10 +29,6 @@
 
 	    <!-- Custom styles for this template -->
 	    <link href="carousel.css" rel="stylesheet">
-
-	    <!-- Map -->
-	    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css">
-	    <link rel="stylesheet" type="text/css" href="Resources/map/css/style.css">
 
     </head>
 <!-- NAVBAR
@@ -60,7 +56,7 @@
 				                	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plots<span class="caret"></span></a>
 				                  	<ul class="dropdown-menu">
 					                    <li><a href="z-plot1.html">Plot1</a></li>
-					                    <li><a href="z-plot2.html">JSON Plots</a></li>   
+					                    <li><a href="z-plot2.html">JSON Plots</a></li>     
 				                  	</ul>
 				                </li>
 					        	<li><a href="z-members.html">Team Members</a></li>
@@ -75,23 +71,33 @@
 	    <!-- Marketing messaging and featurettes
 	    ================================================== -->
 	    <!-- Wrap the rest of the page in another container to center all the content. -->
-	   	<br><br>
+	    <br><br><br><br>
 
-    	<div id="map-id" height="1400" width="1400"></div>
+	    <div class="container marketing">
 
-		<input type='button' id='addRouteBtn' class='btn btn-primary btn-xs' onclick='getRoute()' value='Add Route to Map' />
-		<div id="navDirections" style="width: 400px; overflow: auto; overflow-x: hidden; height: 100px;"></div>
+	      <!-- START THE FEATURETTES -->
 
-<!-- 			<button id="addRouteBtn">Add route to map</button> -->
+	      <div class="row featurette">
+	        <div class="col-lg-9 col-lg-push-3 col-md-9 col-md-push-3 col-sm-9 col-sm-push-3 col-xs-9 col-xs-push-3">
+	          <h2 class="featurette-heading">Hobbies</h2>
+	          <p class="lead">I enjoy designing and building tools or gifts via 3D print technology, backgammon, jugging, swimming and canoeing.</p>
+	        </div>
+	        <div class="col-lg-3 col-lg-pull-9 col-md-3 col-md-pull-9 col-sm-3 col-sm-pull-9 col-xs-3 col-xs-pull-9">
+	          <img class="featurette-image img-responsive center-block" src="Resources/Hobbies/01.png" alt="hobbies image">
+	        </div>
+	      </div>
 
-		<br><br>
+	      <!-- /END THE FEATURETTES -->
 
-	      <!-- FOOTER -->
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+	    <!-- FOOTER -->
 	    <div>
 	      <footer>
 	        <p>&copy; 2018 Made by UCI Group 7 &middot; <a target="_blank" href="https://help.github.com/articles/github-terms-of-service/">Terms</a> &middot; <a target="_blank" href="https://help.github.com/articles/github-privacy-statement/"">Privacy</a></p>
 	      </footer>
 	    </div><!-- /.container -->
+
 
 	    <!-- Bootstrap core JavaScript
 	    ================================================== -->
@@ -99,29 +105,9 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	    <script>window.jQuery || document.write('<script src="Resources/carousel resources/jquery.min.js"><\/script>')</script>
 	    <script src="Resources/carousel resources/bootstrap/js/bootstrap.min.js"></script>
-
 	    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 	    <script src="Resources/carousel resources/holder.min.js"></script>
-
 	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	    <script src="Resources/carousel resources/ie10-viewport-bug-workaround.js"></script>
-
-    
-    	<!-- D3 -->
-    	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
-
-    	<!-- Leaflet JavaScript -->
-    	<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-    	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
-    	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
-    	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-
-    	<!-- API Key -->
-    	<script type="text/javascript" src="Resources/map/js/config.js"></script>
-
-    	<!-- Our JavaScript -->
-    	<script type="text/javascript" src="Resources/map/js/logic.js"></script>
-
-
     </body>
 </html>

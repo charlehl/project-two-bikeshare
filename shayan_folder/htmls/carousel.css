@@ -3,7 +3,7 @@
 /* Padding below the footer and lighter body text */
 
 body {
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   color: #083b47;
   background:#d1e1ed;
 }
@@ -147,14 +147,14 @@ h3{
 }
 
 .bar {
-  fill: green;
+  fill: #b5ce05;
 }
 
-/*.bar:hover {
+.bar:hover {
   fill: red;
-}*/
+}
 
-.tooltip {
+/*.tooltip {
   display: none;
   position: absolute;
   width: 80px;
@@ -165,7 +165,7 @@ h3{
   background: #083b47;
   border: 0;
   border-radius: 10px;
-}
+}*/
 
 .about{
     text-align:justify;
