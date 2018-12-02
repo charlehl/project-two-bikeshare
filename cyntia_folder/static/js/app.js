@@ -1,31 +1,32 @@
-// Set the margins
-var margin = {top: 60, right: 60, bottom: 60, left: 60},
-  width = 1000 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
+	// Set the margins
+	var margin = {top: 60, right: 60, bottom: 60, left: 60},
+	  width = 900 - margin.left - margin.right,
+	  height = 400 - margin.top - margin.bottom;
 
-// Parse the month variable
-var parseWeekday = d3.timeParse("%A");
-var formatWeekday= d3.timeFormat("%A");
+	// Parse the month variable
+	var parseWeekday = d3.timeParse("%A");
+	var formatWeekday= d3.timeFormat("%A");
 
-// Set the ranges
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1) 
-var y = d3.scaleLinear().range([height, 0]);
+	// Set the ranges
+	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1) 
+	var y = d3.scaleLinear().range([height, 0]);
 
 
-// Create the svg canvas in the "graph" div
-var svg = d3.select("#passBar")
-        .append("svg")
-        .style("width", width + margin.left + margin.right + "px")
-        .style("height", height + margin.top + margin.bottom + "px")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform","translate(" + margin.left + "," + margin.top + ")")
-        .attr("class", "svg");
+	// Create the svg canvas in the "graph" div
+	var svg = d3.select("#passBar")
+	        .append("svg")
+	        .style("width", width + margin.left + margin.right + "px")
+	        .style("height", height + margin.top + margin.bottom + "px")
+	        .attr("width", width + margin.left + margin.right)
+	        .attr("height", height + margin.top + margin.bottom)
+	        .append("g")
+	        .attr("transform","translate(" + margin.left + "," + margin.top + ")")
+	        .attr("class", "svg");
 
 var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
-
+// Bar chart: weekly bike usage filtered by Pass Type
 function initialBar (pass_type) {
+
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
     
 	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
@@ -102,7 +103,7 @@ function bar_data(pass_type) {
 	
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
 	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
-	  	console.log(bar_data)
+	  	//console.log(bar_data)
 	  	
 	  	bar_data.forEach((data) => {
 	  		data.weekday = data.weekday;
@@ -133,7 +134,7 @@ function bar_data(pass_type) {
 	});
 }	
 
-
+//Pie Chart count of total rentals grouped by Pass Type
  d3.json("/pie_data").then((pie_data) => {
  	//console.log(pie_data)
  	pie_data.forEach((data) => {
@@ -161,12 +162,48 @@ function bar_data(pass_type) {
 	};
 	var data = [trace1];
 	var layout = {
-		height: 600,
-		width: 600,
+		height: 500,
+		width: 500,
 		title: "Pass Type"
 	}
 	Plotly.newPlot("passPie", data, layout)
 	});
+
+// Dashboard stations live status info panel
+
+function buildLiveStatus(name) {
+	document.getElementById("selStationName").value = name
+
+	d3.json(`/stations_status/${name}`).then((data) => {
+		var $data = d3.select("#panel-status");
+		$data.html("");
+		Object.entries(data[0]).forEach(([key,value]) =>{
+		$data.append("h6").text(`${key}: ${value}`);
+
+		});
+	});
+}
+//buildLiveStatus(name);
+// function to grab stations names and display on dropdown menu
+function stationsNames() {
+	var selector = d3.selectAll("#selStationName");
+	d3.json("/stations_names").then((stations_names) =>{
+		console.log(stations_names)
+		stations_names.forEach((name) => {
+			selector
+				.append("option")
+				.text(name)
+				.property("value",name);
+		});
+		const firstStation= stations_names[0];
+		buildLiveStatus(firstStation);
+	});
+}
+function changeStation(newStation) {
+	buildLiveStatus(newStation);
+}	
+//starts livestation dashboard
+stationsNames();
 
 
 

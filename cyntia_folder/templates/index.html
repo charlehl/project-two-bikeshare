@@ -2,28 +2,56 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Vizualizations</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bike Share Template</title>
         <!--<script src="https://d3js.org/d3.v4.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
     </head>
   <body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Stations Status</h1>
+        <p>Some information for the user</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="well">
+          <h5>SELECT Station Name:</h5>
+          <select name ="selStationName" id="selStationName" onchange="changeStation(this.value)"></select>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Live Status</h3>
+          </div>
+          <div id= "panel-status" class="panel-body"></div>
+        </div>
+      </div>
+       
+
+    </div>
+    </div>
     <!--<div id = "weekdayDropdown"></div>-->
-    <select name="dropdownSelect" id="dropdownSelect" onchange="bar_data(this.value)">
+    
+    <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
+        <select name="dropdownSelect" id="dropdownSelect" onchange="bar_data(this.value)">
             <option value="One Day Pass">One Day Pass</option>
             <option value="Monthly Pass">Monthly Pass</option>
             <option value="Walk-up">Walk Up</option>
             <option value="Flex Pass">Flex Pass</option>
-    </select>
-    <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
-        
+        </select>     
     <div class="row">
         <div class="col-md-12">
             <div id="passBar"></div>
         </div>
     </div>
     <div class="row">
-                <div class="col-md-12">
+         <div class="col-md-12">
             <div id="passPie"></div>
         </div>
     </div>
