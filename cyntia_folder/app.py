@@ -25,8 +25,8 @@ def stations():
 
     return jsonify(list(df.columns)[2:])
 
-@app.route("/filter_data")
-def filter_data():
+@app.route("/bar_data")
+def bar_data():
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -40,7 +40,6 @@ def filter_data():
 	# group by day of week and pass info back into d3
 	
 	pass_type = request.args.get('pass_type')
-	print(pass_type)
 
 	selection = df.loc[df['passholder_type'] == pass_type, :]    
 	grouped_df = selection[['weekday','duration']].groupby('weekday').sum()
@@ -51,8 +50,8 @@ def filter_data():
 
 	return weekday_df.to_json(orient='records')
 
-@app.route("/plots")
-def plots():
+@app.route("/pie_data")
+def pie_data():
 
 	db = client.bike_data_db
 
@@ -62,24 +61,11 @@ def plots():
 	for trip in bike_trip:
 	    full_dict.append(trip)
 	df = pd.DataFrame(full_dict)
+	grouped_df = df[['passholder_type','trip_id']].groupby('passholder_type').count()
+	pie_df = grouped_df.reset_index()
+	
 
-	one_way_df = df.loc[df["trip_route_category"] == "One Way", :]
-	data_for_plots = one_way_df[["trip_id","duration", "start_day","weekday","start_station","end_station", "passholder_type"]]
-	data_for_plots["passholder_type"] = data_for_plots["passholder_type"].replace({'Walk-up': 'One Day Pass'})
 
-	# dates = data_for_plots["start_time"]
-	# weekday_list = []
-
-	# for date in dates:
-	#     datetime_object = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-	#     #print(datetime_object)
-	    
-	#     weekday = calendar.day_name[datetime_object.weekday()] 
-	#     weekday_list.append(weekday)
-	# data_for_plots["weekday"] = weekday_list  
-
-	data_dict = data_for_plots.to_dict('records')
-
-	return jsonify(data_dict)
+	return pie_df.to_json(orient='records')
 if __name__ == "__main__":
     app.run(debug=True)

@@ -13,7 +13,7 @@ var y = d3.scaleLinear().range([height, 0]);
 
 
 // Create the svg canvas in the "graph" div
-var svg = d3.select("#graph")
+var svg = d3.select("#passBar")
         .append("svg")
         .style("width", width + margin.left + margin.right + "px")
         .style("height", height + margin.top + margin.bottom + "px")
@@ -23,59 +23,21 @@ var svg = d3.select("#graph")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")")
         .attr("class", "svg");
 
-// var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
-// d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
-//   	//console.log(filtered_data)
-//   	filtered_data.forEach((data) => {
-//   		data.weekday = data.weekday;
-//   		data.duration =+ data.duration;
-//   		});
-// 	//Scale the range of the data
-// 	x.domain(filtered_data.map(function(d) { return d.weekday; }));
-// 	y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
-// 	//Set up the x axis
-// 	var xAxis = svg.append("g")
-// 	    .attr("transform", "translate(0," + height + ")")
-// 	    .attr("class", "x axis")
-// 	    .call(d3.axisBottom(x)
-// 	    .tickSize(0, 0)
-// 	    .tickSizeInner(0)
-// 	    .tickPadding(10));
-
-// 	// Add the Y Axis
-// 	var yaxis = svg.append("g")
-// 	    .attr("class", "y axis")
-// 	    .call(d3.axisLeft(y)
-// 	    .ticks(5)
-// 	    .tickSizeInner(0)
-// 	    .tickPadding(6)
-// 	    .tickSize(0, 0));
-  
-//     // Add a label to the y axis
-//     svg.append("text")
-//         .attr("transform", "rotate(-90)")
-//         .attr("y", 0 - 60)
-//         .attr("x", 0 - (height / 2))
-//         .attr("dy", "1em")
-//         .style("text-anchor", "middle")
-//         .text("Usage Volume (minutes)")
-//         .attr("class", "y axis label");
-// }); 
 var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
 
-function initialGraph (pass_type) {
+function initialBar (pass_type) {
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
     
-	d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
-	console.log(filtered_data)
+	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
+	console.log(bar_data)
 
-  		filtered_data.forEach((data) => {
+  		bar_data.forEach((data) => {
   		data.weekday = data.weekday;
   		data.duration =+ data.duration;
   		});
   		//Scale the range of the data
-		x.domain(filtered_data.map(function(d) { return d.weekday; }));
-		y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
+		x.domain(bar_data.map(function(d) { return d.weekday; }));
+		y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
 		//Set up the x axis
 		var xAxis = svg.append("g")
 		    .attr("transform", "translate(0," + height + ")")
@@ -93,6 +55,15 @@ function initialGraph (pass_type) {
 		    .tickSizeInner(0)
 		    .tickPadding(6)
 		    .tickSize(0, 0));
+		// Add title   
+		 
+		svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        //.style("text-decoration", "underline")  
+        .text("Bike rental time filtered by Pass Type");    
 	  
 	    // Add a label to the y axis
 	    svg.append("text")
@@ -105,13 +76,13 @@ function initialGraph (pass_type) {
 	        .attr("class", "y axis label");
 
   		var selectPassGroup = svg.selectAll(".passGroup")
-            .data(filtered_data)
+            .data(bar_data)
 	        .enter()
 	        .append("g")
 	      	.attr("class", "passGroup")
 
 	    var initialRect= selectPassGroup.selectAll(".rect")  
-	    	.data(filtered_data)
+	    	.data(bar_data)
 	    	.enter()
 	    	.append("rect")
 
@@ -124,20 +95,20 @@ function initialGraph (pass_type) {
 
 	});
 }	
-initialGraph(pass_type)  
+initialBar(pass_type)  
 
 
-function filter_data(pass_type) {
+function bar_data(pass_type) {
 	
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
-	d3.json(`/filter_data?pass_type=${pass_type}`).then((filtered_data) => {
-	  	console.log(filtered_data)
+	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
+	  	console.log(bar_data)
 	  	
-	  	filtered_data.forEach((data) => {
+	  	bar_data.forEach((data) => {
 	  		data.weekday = data.weekday;
 	  		data.duration =+ data.duration;
 	  		});
-	  	y.domain([0, d3.max(filtered_data, function(d) { return d.duration })]);
+	  	y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
 	  	//Add the Y Axis
 		var yaxis = svg
 		    .call(d3.axisLeft(y)
@@ -147,10 +118,10 @@ function filter_data(pass_type) {
 		    .tickSize(0, 0));
 
 		var selectPassGroup = svg.selectAll(".passGroup")
-            .data(filtered_data)
+            .data(bar_data)
 
 	    selectPassGroup.selectAll("rect.bar")  
-	    	.data(filtered_data)
+	    	.data(bar_data)
 	    	.transition()
 	    	.duration(1000)
 		    .attr("x", function(d) { return x(d.weekday); })
@@ -161,6 +132,45 @@ function filter_data(pass_type) {
 
 	});
 }	
+
+
+ d3.json("/pie_data").then((pie_data) => {
+ 	//console.log(pie_data)
+ 	pie_data.forEach((data) => {
+  		data.weekday = data.weekday;
+  		data.duration =+ data.duration;
+  		});
+	var pieLabels = pie_data.map(function(d) { return d.passholder_type});
+	//console.log(pieLabels);  
+	var pieValues = pie_data.map(function(d) { return d.trip_id});
+	//console.log(pieValues);
+
+	var colors = ['rgba(155, 140, 28, 0.7)','rgba(155, 77, 28, 0.7)','rgb(66, 135, 178)','rgba(28, 155, 77, 0.7)','rgb(155, 28, 43)']
+
+	var trace1 = {
+		labels: pieLabels,
+		values: pieValues,
+		type: "pie",
+		text: pie_data.map(function(d) { return d.passholder_type}),
+		marker: {
+			colors: colors
+		},
+		text: {
+			color:'#000'
+		}
+	};
+	var data = [trace1];
+	var layout = {
+		height: 600,
+		width: 600,
+		title: "Pass Type"
+	}
+	Plotly.newPlot("passPie", data, layout)
+	});
+
+
+
+
 
 
 
