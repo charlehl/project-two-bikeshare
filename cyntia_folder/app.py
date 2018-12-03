@@ -7,9 +7,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import time
 import calendar
-
 from flask import Flask,jsonify, render_template, request
-
 import json
 import pandas as pd
 import requests
@@ -24,6 +22,7 @@ app = Flask(__name__)
 
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
+url = "https://bikeshare.metro.net/stations/json/"
 
 @app.route("/")
 def index():
