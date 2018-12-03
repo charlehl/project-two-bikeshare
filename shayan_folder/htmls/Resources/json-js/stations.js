@@ -1,6 +1,7 @@
+
 var url = "https://bikeshare.metro.net/stations/json/";
 
-d3.json(url, function(error, response) {
+d3v4.json(url, function(error, response) {
 
   // Log an error if one exists
   if (error) return console.warn(error);
@@ -31,14 +32,14 @@ d3.json(url, function(error, response) {
 
   // Define SVG area dimensions
   var svgWidth = 1100;
-  var svgHeight = 530;
+  var svgHeight = 550;
 
   // Define the chart's margins as an object
   var chartMargin = {
-    top: 50,
-    right: 90,
-    bottom: 50,
-    left: 50
+    top: 100,
+    right: 140,
+    bottom: 100,
+    left: 100
   };
 
   // Define dimensions of the chart area
@@ -47,7 +48,7 @@ d3.json(url, function(error, response) {
 
   // Select body, append SVG area to it, and set the dimensions
 
-  var svg = d3
+  var svg = d3v4
   .select("#svg-area")
   .append("svg")
   .attr("height", svgHeight)
@@ -66,20 +67,20 @@ d3.json(url, function(error, response) {
   });
 
   // define the horizontal scales with a padding of 0.1 (10%) for x axis
-  var xBandScale = d3.scaleBand()
+  var xBandScale = d3v4.scaleBand()
     .domain(response.features.map(d => d.properties.kioskId))
     .range([0, chartWidth])
-    .padding(0.1);
+    .padding(0.2);
 
   // Create a linear scale for the vertical axis.
-  var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(response.features, d => d.properties.bikesAvailable)])
+  var yLinearScale = d3v4.scaleLinear()
+    .domain([0, d3v4.max(response.features, d => d.properties.bikesAvailable)])
     .range([chartHeight, 0]);
 
     // Create two new functions passing our scales in as arguments
   // These will be used to create the chart's axes
-  var bottomAxis = d3.axisBottom(xBandScale);
-  var leftAxis = d3.axisLeft(yLinearScale).ticks(10);
+  var bottomAxis = d3v4.axisBottom(xBandScale);
+  var leftAxis = d3v4.axisLeft(yLinearScale).ticks(10);
 
   chartGroup.append("g")
     .call(leftAxis);
@@ -90,7 +91,7 @@ d3.json(url, function(error, response) {
     .selectAll("text")  
     .style("text-anchor", "end")
     .attr("dx", "-.8em")
-    .attr("dy", ".15em")
+    .attr("dy", "-.5em")
     .attr("transform", "rotate(-90)");
 
   // Tooltip
@@ -135,8 +136,6 @@ d3.json(url, function(error, response) {
 
   chartGroup.append("text")
     .attr("transform", `translate(${chartWidth / 2 - 50}, ${chartHeight + chartMargin.top})`)
-    .text("Stations Names")
+    .text("Stations IDs")
 
 });
-
-

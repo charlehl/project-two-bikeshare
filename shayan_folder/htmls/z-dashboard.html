@@ -31,11 +31,13 @@
 	    <link href="carousel.css" rel="stylesheet">
 
 		<!-- To Run Json, Plotly, and Tooltip -->
-	    <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+	    <script src="Resources/json-js/d3v4.js"></script>
+	    <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script> -->
+<!-- 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script> -->
 
     </head>
 <!-- NAVBAR
@@ -84,6 +86,23 @@
 	    <div class="container marketing">
 
 		  <!-- START THE FEATURETTES -->
+
+		  <div class="row">
+		      <div class="col-md-4">
+		        <div class="well">
+		          <h5>Please select any station name:</h5>
+		          <select id="station_dropdownSelect" onchange="optionChanged(this.value)"></select>
+		        </div>
+		        <div class="panel panel-primary">
+		          <div class="panel-heading">
+		            <h3 class="panel-title">Station Live Status</h3>
+		          </div>
+		          <div id="sample-metadata" class="panel-body"></div>
+		          <script src="Resources/dashboard/app.js"></script>
+		        </div>
+		      </div>
+		  </div>
+
 
 	      <div class="row featurette">
 	        <div class="col-lg-pull-1 col-lg-10 col-lg-push-1 col-md-pull-1 col-md-10 col-md-push-1 col-sm-pull-1 col-sm-10 col-sm-push-1 col-xs-pull-1 col-xs-10 col-xs-push-1">
