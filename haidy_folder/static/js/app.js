@@ -36,11 +36,15 @@ d3.json(url).then(function(data) {
 
 //For Assigning the initial default Plot
 function initData(){
-	var station_name = d3.select("#station_dropdownSelect").property("value");
-	var defaultUrl = "/dashboard?station_name="+ station_name
+	//var station_name = d3.select("#station_dropdownSelect").property("value"); 
+	var station_name = "7th & Flower";
+	//var station_name = $('station_dropdownSelect:first-child').attr("selected");
+
+	var defaultUrl = "/dashboard?station_name="+ station_name;
+	console.log(defaultUrl);
 	d3.json(defaultUrl).then(function defaultPlot(trace){
-		var x_labels = data.map(function(d) { return d.time_slices}); 
-		var y_labels = data.map(function(d) { return d.duration});
+		var x_labels = trace.map(function(d) { return d.time_slices}); 
+		var y_labels = trace.map(function(d) { return d.duration});
 		var data = [{x: x_labels}, {y: y_labels}, {type:'bar'}];
 
 		var layout = {title: "Customers Popular Times",
