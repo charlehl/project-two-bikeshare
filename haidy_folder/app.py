@@ -63,16 +63,16 @@ def dashboard(station_name):
 
 	df_merged = df_users.merge(df_stations, on="start_station", how="inner")
     ## Get the station name from the javascript through a flask request 
-	station_name = request.args.get('station_name') 
-	
-	df_filtered = df_merged.loc[df_merged["station_name"]== station_name, :]
+	station_name_var = request.args.get('station_name') 
+	##station_name= "7th & Flower"
+	df_filtered = df_merged.loc[df_merged["station_name"]== station_name_var, :]
 
 	df_filtered["time_slices"] = [datetime.strptime(time_sl, "%H:%M:%S").strftime("%H") for time_sl in df_filtered["start_time"]]
 	df_grouped = df_filtered.groupby("time_slices")["duration"].sum()
 	df_grouped = df_grouped.reset_index()
 	df_grouped = df_grouped.sort_values("time_slices")
 
-	return df_grouped.to_json(orient='records')
+	return (df_grouped.to_json(orient='records'))
 
 
 if (__name__ == "__main__"):
