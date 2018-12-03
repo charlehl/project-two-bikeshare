@@ -1,0 +1,13 @@
+html,
+body,
+#map-id {
+  height: 90%;
+  padding: 0;
+  margin: 100;
+}
+
+#navDirections {
+  margin: 5px 5px 5px 5px;
+  padding: 1% 1%;
+  border-width: 10px;
+}
