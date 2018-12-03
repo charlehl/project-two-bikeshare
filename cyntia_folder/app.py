@@ -30,46 +30,6 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
-@app.route("/stations_names")
-def stations_names():
-	data = (json.loads(response.text))["features"]
-	data_list = []
-	for row in data:
-		data_list.append({"Kiosk Id": row["properties"]["kioskId"],
-		"Name" : row["properties"]["name"],
-		"Status" : row["properties"]["kioskPublicStatus"],
-		"Bikes Available" : row["properties"]["bikesAvailable"],
-		"Docks Available" : row["properties"]["docksAvailable"],
-		"Total Docks" : row["properties"]["totalDocks"],
-		"Close Time" : row["properties"]["closeTime"],
-		"Open Time" : row["properties"]["openTime"],
-		"Street Name" : row["properties"]["addressStreet"]
-		})
-	df = pd.DataFrame(data_list)
-	stations_names = df['Name']
-	return stations_names.to_json(orient='records')
-
-@app.route("/stations_status/<name>")
-def station_status(name):
-	data = (json.loads(response.text))["features"]
-	data_list = []
-	for row in data:
-		data_list.append({"Kiosk Id": row["properties"]["kioskId"],
-		"Name" : row["properties"]["name"],
-		"Status" : row["properties"]["kioskPublicStatus"],
-		"Bikes Available" : row["properties"]["bikesAvailable"],
-		"Docks Available" : row["properties"]["docksAvailable"],
-		"Total Docks" : row["properties"]["totalDocks"],
-		"Close Time" : row["properties"]["closeTime"],
-		"Open Time" : row["properties"]["openTime"],
-		"Street Name" : row["properties"]["addressStreet"]
-		})
-	df = pd.DataFrame(data_list)
-
-	selection = df.loc[df["Name"] == name, :]
-
-	return selection.to_json(orient='records')
-
 @app.route("/line_chart/<name>")
 def line_chart(name,weekday):
 	db = client.bike_data_db
