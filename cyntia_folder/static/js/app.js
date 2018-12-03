@@ -41,12 +41,12 @@ function initialBar (pass_type) {
 		y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
 		//Set up the x axis
 		var xAxis = svg.append("g")
-		    .attr("transform", "translate(0," + height + ")")
-		    .attr("class", "x axis")
-		    .call(d3.axisBottom(x)
-		    .tickSize(0, 0)
-		    .tickSizeInner(0)
-		    .tickPadding(10));
+			.attr("transform", "translate(0," + height + ")")
+			.attr("class", "x axis")
+			.call(d3.axisBottom(x)
+			.tickSize(0, 0)
+			.tickSizeInner(0)
+			.tickPadding(10));
 
 		// Add the Y Axis
 		var yaxis = svg.append("g")
@@ -63,7 +63,6 @@ function initialBar (pass_type) {
         .attr("y", 0 - (margin.top / 2))
         .attr("text-anchor", "middle")  
         .style("font-size", "20px") 
-        //.style("text-decoration", "underline")  
         .text("Bike rental time filtered by Pass Type");    
 	  
 	    // Add a label to the y axis
@@ -109,9 +108,20 @@ function bar_data(pass_type) {
 	  		data.weekday = data.weekday;
 	  		data.duration =+ data.duration;
 	  		});
+
+	  	//x.domain(bar_data.map(function(d) { return d.weekday; }));
 	  	y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
+
+	  	var xAxis = svg.append("g")
+		    .attr("transform", "translate(0," + height + ")")
+		    .attr("class", "x axis")
+		    .call(d3.axisBottom(x)
+		    .tickSize(0, 0)
+		    .tickSizeInner(0)
+		    .tickPadding(10));
+
 	  	//Add the Y Axis
-		var yaxis = svg
+		var yaxis = svg.
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
 		    .tickSizeInner(0)
@@ -127,7 +137,6 @@ function bar_data(pass_type) {
 	    	.duration(1000)
 		    .attr("x", function(d) { return x(d.weekday); })
 		    .attr("y", function(d) { return y(d.duration); })
-		    //.attr("width", 100)
 		    .attr("height", function(d) { return height - y(d.duration); });
 
 
@@ -171,39 +180,72 @@ function bar_data(pass_type) {
 
 // Dashboard stations live status info panel
 
-function buildLiveStatus(name) {
-	document.getElementById("selStationName").value = name
+function init() {
 
-	d3.json(`/stations_status/${name}`).then((data) => {
+  var url = "https://bikeshare.metro.net/stations/json/"
+
+	d3.json(url).then(function(data) {
+		//console.log(data.features)
+		var arr = data.features.map(data => data.properties.name)
+
+		for (var i=0; i< arr.length; i++) {
+			//var arr = data.features.name
+			//console.log(arr[i])
+
+			var select = document.getElementById("station_dropdownSelect")
+			var opt = arr[i]
+			var elem = document.createElement("option");
+			elem.textContent = opt;
+			elem.value = opt;
+			select.appendChild(elem);
+		}
+	})
+}
+
+function buildLiveStatus(name) {
+
+	var url = "https://bikeshare.metro.net/stations/json/"
+
+	d3.json(url).then((data) => {
+		var selection = document.getElementById("station_dropdownSelect").value
+		console.log(selection)
+		
+		data.getFeaturesByProperty = function(key, value) {
+			return this.features.filter(function(feature) {
+				if (feature.properties[key] === value) {
+					return true;
+				} else {
+					return false;
+				}
+			})
+		}
+		var stationStatus = data.getFeaturesByProperty('name', `${selection}`);
+		var filteredStation = stationStatus[0];
+		console.log(filteredStation)
 		var $data = d3.select("#panel-status");
 		$data.html("");
-		Object.entries(data[0]).forEach(([key,value]) =>{
+		var stationInfo = 
+				{Id: filteredStation.properties.kioskId,
+				Name: filteredStation.properties.name,
+				Street: filteredStation.properties.addressStreet,
+				Status: filteredStation.properties.kioskConnectionStatus,
+				openTime: filteredStation.properties.openTime,
+				closeTime: filteredStation.properties.closeTime,
+				bikesAvailable: filteredStation.properties.bikesAvailable,
+				docksAvailable: filteredStation.properties.docksAvailable};
+		console.log(stationInfo)
+		Object.entries(stationInfo).forEach(([key,value]) =>{
 		$data.append("h6").text(`${key}: ${value}`);
+		});
+	});	
+}
+buildLiveStatus();
 
-		});
-	});
-}
-//buildLiveStatus(name);
-// function to grab stations names and display on dropdown menu
-function stationsNames() {
-	var selector = d3.selectAll("#selStationName");
-	d3.json("/stations_names").then((stations_names) =>{
-		console.log(stations_names)
-		stations_names.forEach((name) => {
-			selector
-				.append("option")
-				.text(name)
-				.property("value",name);
-		});
-		const firstStation= stations_names[0];
-		buildLiveStatus(firstStation);
-	});
-}
 function changeStation(newStation) {
 	buildLiveStatus(newStation);
 }	
 //starts livestation dashboard
-stationsNames();
+init();
 
 
 
