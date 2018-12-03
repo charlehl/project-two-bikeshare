@@ -150,7 +150,7 @@ $('#heat-form-submit').on('click', function(e){
 
        stationData.then(data => {
         console.log(data);
-        heatmapLayer.setData(data).repaint();
+        heatmapLayer.setData(data);
         //heatmapLayer.repaint();
        });
       //  // Json data here in results
