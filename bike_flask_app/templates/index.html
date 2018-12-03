@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bike Data Index</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css" />
+  <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" /> -->
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Test App Dev</h1>
+      </div>
+    </div>
+    <div class="row">
+      <!-- Test paths for flask app -->
+      <a href="citibike.html">Citi Bike App</a> <br>
+      <a href="dashboard.html">Dashboard</a> <br>
+      <a href="bikecharts.html">Bikecharts</a> <br>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="filter">
+            <h5>Select Dates:</h5>
+            <form  action="" method="post">
+              <div>
+                <label for="start">Enter start date:</label>
+                <input type="date" id="start-date" name="start-date" min="2018-07-01" max="2018-08-31" value="2018-07-01">
+              </div>
+              <div>
+                <label for="end">Enter end date:</label>
+                <input type="date" id="end-date" name="end-date" min="2018-07-02" value="2018-07-31">
+              </div>
+              <div>
+                <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
+                <!-- <input type='button' id='genHeatMap' class='btn btn-primary btn-xs' onclick='genHeatMap()' value='Generate Heat Map'> -->
+              </div>
+            </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+  <!-- <div id="map"></div> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+
+  <!-- Leaflet heatmap plugin-->
+  <script type="text/javascript" src="/static/js/heatmap.js"></script>
+  <script type="text/javascript" src="/static/js/leaflet-heatmap.js"></script>
+
+  <!-- API Key -->
+  <script type="text/javascript" src="/static/js/config.js"></script>
+  <!-- Our JavaScript -->
+  <!-- <script type="text/javascript" src="js/logic.js"></script> -->
+  <script type="text/javascript" src="/static/js/app.js"></script>
+
+</body>
+
+</html>
+
