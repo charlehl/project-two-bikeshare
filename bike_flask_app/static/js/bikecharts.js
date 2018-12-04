@@ -199,7 +199,7 @@ function init() {
 			elem.value = opt;
 			select.appendChild(elem);
 		}
-		buildLiveStatus(arr[0]);
+		//buildLiveStatus(arr[0]);
 	});
 }
 
