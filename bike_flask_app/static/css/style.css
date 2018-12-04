@@ -76,9 +76,11 @@ input[type=button] {
 .bar {
   fill:#447777;
 }
+
 #passPie {
   margin-left: 30%;
 }
 #dropdownSelect {
   margin-left: 10%;
 }
+

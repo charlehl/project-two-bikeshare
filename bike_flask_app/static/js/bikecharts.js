@@ -53,6 +53,8 @@ function initialBar (pass_type) {
 
 		// Add the Y Axis
 		yAxis.attr("class", "y axis")
+		var yaxis = svg.append("g")
+		    .attr("class", "y axis")
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
 		    .tickSizeInner(0)
@@ -121,7 +123,6 @@ function bar_data(pass_type) {
 		    .tickPadding(10));
 
 	  	//Add the Y Axis
-
 		yAxis
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
@@ -178,3 +179,4 @@ function bar_data(pass_type) {
 	}
 	Plotly.newPlot("passPie", data, layout)
 	});
+
