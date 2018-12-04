@@ -54,9 +54,6 @@ function initData(){
 				  yaxis: "Popularity/Usage",
 				  margin : {t: 30, b: 100, l: 30} };
 
-		
-		
-	
 		Plotly.newPlot('graph', data);
 		
 });

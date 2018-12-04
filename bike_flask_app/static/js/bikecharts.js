@@ -1,29 +1,33 @@
-	// Set the margins
-	var margin = {top: 60, right: 60, bottom: 60, left: 60},
-	  width = 900 - margin.left - margin.right,
-	  height = 400 - margin.top - margin.bottom;
+// Set the margins
+var margin = {top: 60, right: 60, bottom: 60, left: 60},
+  width = 1400 - margin.left - margin.right,
+  height = 700 - margin.top - margin.bottom;
 
-	// Parse the month variable
-	var parseWeekday = d3.timeParse("%A");
-	var formatWeekday= d3.timeFormat("%A");
+// Parse the month variable
+var parseWeekday = d3.timeParse("%A");
+var formatWeekday= d3.timeFormat("%A");
 
-	// Set the ranges
-	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1) 
-	var y = d3.scaleLinear().range([height, 0]);
+// Set the ranges
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1) 
+var y = d3.scaleLinear().range([height, 0]);
 
 
-	// Create the svg canvas in the "graph" div
-	var svg = d3.select("#passBar")
-	        .append("svg")
-	        .style("width", width + margin.left + margin.right + "px")
-	        .style("height", height + margin.top + margin.bottom + "px")
-	        .attr("width", width + margin.left + margin.right)
-	        .attr("height", height + margin.top + margin.bottom)
-	        .append("g")
-	        .attr("transform","translate(" + margin.left + "," + margin.top + ")")
-	        .attr("class", "svg");
+// Create the svg canvas in the "graph" div
+var svg = d3.select("#passBar")
+        .append("svg")
+        .style("width", width + margin.left + margin.right + "px")
+        .style("height", height + margin.top + margin.bottom + "px")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform","translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "svg");
 
 var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
+
+var xAxis = svg.append("g");
+var yAxis = svg.append("g");
+
 // Bar chart: weekly bike usage filtered by Pass Type
 function initialBar (pass_type) {
 
@@ -40,8 +44,7 @@ function initialBar (pass_type) {
 		x.domain(bar_data.map(function(d) { return d.weekday; }));
 		y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
 		//Set up the x axis
-		var xAxis = svg.append("g")
-			.attr("transform", "translate(0," + height + ")")
+		xAxis.attr("transform", "translate(0," + height + ")")
 			.attr("class", "x axis")
 			.call(d3.axisBottom(x)
 			.tickSize(0, 0)
@@ -49,6 +52,7 @@ function initialBar (pass_type) {
 			.tickPadding(10));
 
 		// Add the Y Axis
+		yAxis.attr("class", "y axis")
 		var yaxis = svg.append("g")
 		    .attr("class", "y axis")
 		    .call(d3.axisLeft(y)
@@ -90,7 +94,7 @@ function initialBar (pass_type) {
 	    	.attr("class", "bar")
 		    .attr("x", function(d) { return x(d.weekday); })
 		    .attr("y", function(d) { return y(d.duration); })
-		    .attr("width", 100)
+		    .attr("width", 150)
 		    .attr("height", function(d) { return height - y(d.duration); });
 
 	});
@@ -112,16 +116,14 @@ function bar_data(pass_type) {
 	  	//x.domain(bar_data.map(function(d) { return d.weekday; }));
 	  	y.domain([0, d3.max(bar_data, function(d) { return d.duration })]);
 
-	  	var xAxis = svg.append("g")
-		    .attr("transform", "translate(0," + height + ")")
-		    .attr("class", "x axis")
+	  	xAxis
 		    .call(d3.axisBottom(x)
 		    .tickSize(0, 0)
 		    .tickSizeInner(0)
 		    .tickPadding(10));
 
 	  	//Add the Y Axis
-		var yaxis = svg
+		yAxis
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
 		    .tickSizeInner(0)
@@ -171,88 +173,10 @@ function bar_data(pass_type) {
 	};
 	var data = [trace1];
 	var layout = {
-		height: 500,
-		width: 500,
+		height: 700,
+		width: 700,
 		title: "Pass Type"
 	}
 	Plotly.newPlot("passPie", data, layout)
 	});
-
-// Dashboard stations live status info panel
-
-function init() {
-
-  var url = "https://bikeshare.metro.net/stations/json/"
-
-	d3.json(url).then(function(data) {
-		//console.log(data.features)
-		var arr = data.features.map(data => data.properties.name)
-
-		for (var i=0; i< arr.length; i++) {
-			//var arr = data.features.name
-			//console.log(arr[i])
-
-			var select = document.getElementById("station_dropdownSelect")
-			var opt = arr[i]
-			var elem = document.createElement("option");
-			elem.textContent = opt;
-			elem.value = opt;
-			select.appendChild(elem);
-		}
-		//buildLiveStatus(arr[0]);
-	});
-}
-
-function buildLiveStatus(name) {
-
-	var url = "https://bikeshare.metro.net/stations/json/"
-
-	d3.json(url).then((data) => {
-		var selection = document.getElementById("station_dropdownSelect").value
-		console.log(selection)
-		
-		data.getFeaturesByProperty = function(key, value) {
-			return this.features.filter(function(feature) {
-				if (feature.properties[key] === value) {
-					return true;
-				} else {
-					return false;
-				}
-			})
-		}
-		var stationStatus = data.getFeaturesByProperty('name', `${selection}`);
-		var filteredStation = stationStatus[0];
-		console.log(filteredStation)
-		var $data = d3.select("#panel-status");
-		$data.html("");
-		var stationInfo = 
-				{Id: filteredStation.properties.kioskId,
-				Name: filteredStation.properties.name,
-				Street: filteredStation.properties.addressStreet,
-				Status: filteredStation.properties.kioskConnectionStatus,
-				openTime: filteredStation.properties.openTime,
-				closeTime: filteredStation.properties.closeTime,
-				bikesAvailable: filteredStation.properties.bikesAvailable,
-				docksAvailable: filteredStation.properties.docksAvailable};
-		console.log(stationInfo)
-		Object.entries(stationInfo).forEach(([key,value]) =>{
-		$data.append("h6").text(`${key}: ${value}`);
-		});
-	});	
-}
-buildLiveStatus();
-
-function changeStation(newStation) {
-	buildLiveStatus(newStation);
-}	
-//starts livestation dashboard
-init();
-
-
-
-
-
-
-
-
 
