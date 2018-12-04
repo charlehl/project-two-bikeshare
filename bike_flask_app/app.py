@@ -22,6 +22,7 @@ app = Flask(__name__)
 
 # uri="mongodb://localhost:27017/bike_data_db"
 # mongo = PyMongo(app, uri)
+#conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 
@@ -30,8 +31,8 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleW
 
 start_date = "2018-07-01"
 end_date = "2018-07-02"
-start_time = "12:00:00"
-end_time = "23:59:59"
+#start_time = "12:00:00"
+#end_time = "23:59:59"
 
 @app.route("/")
 def index():
