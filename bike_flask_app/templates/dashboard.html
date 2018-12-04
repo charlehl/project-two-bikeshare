@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Vizualizations</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!--<script src="https://d3js.org/d3.v4.js"></script>-->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+        <!--link rel="stylesheet" href="/static/css/style.css"-->
+    </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <a href="/">Home</a> <br>
+          <!--<div id = "weekdayDropdown"></div>-->
+        <div class="well">
+          <h5>SELECT Station Name:</h5>  
+        <select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
+        </select>
+      </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Live Status</h3>
+          </div>
+          <div id= "panel-status" class="panel-body"></div>
+        </div>
+
+        </div>
+        <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
+        <div class="col-md-8">
+        <div id="graph"></div>
+        </div>
+    </div>
+  
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="/static/js/dashapp.js"></script>
+
+
+</body>
+
+</html>
+
