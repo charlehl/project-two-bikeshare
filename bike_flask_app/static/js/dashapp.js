@@ -54,11 +54,7 @@ function initData(){
 				  yaxis: "Popularity/Usage",
 				  margin : {t: 30, b: 100, l: 30} };
 
-		
-		
-	
-		Plotly.newPlot('graph', data);
-		
+		Plotly.newPlot('graph', data);	
 });
 }
 
@@ -76,9 +72,27 @@ d3.json(url).then(function(data) {
 
 //Function to read the data from the selection of user and call the API
 function getData(route){
+	//console.log(route);
+	/*var station_name = d3.select("#station_dropdownSelect").property("value");
+	d3.json(`/dashboard/${route}`).then(function(data){
+		console.log(data);
+		
+		var x_labels = data.map(function(d) { return +d.time_slices}); 
+		var y_labels = data.map(function(d) { return +d.duration});
+		
+		Plotly.restyle("graph", "x", [x_labels]);
+		Plotly.restyle("graph", "y", [y_labels]);
+	})
+	*/
+	buildLiveStatus();
+}
+
+//Function to read the data from the selection of user and call the API
+function dayData(route){
 	console.log(route);
 	var station_name = d3.select("#station_dropdownSelect").property("value");
-	d3.json(`/dashboard/${route}`).then(function(data){
+	var day = d3.select("#weekday_dropdownSelect").property("value");
+	d3.json(`/dashboard/${station_name}/${route}`).then(function(data){
 		console.log(data);
 		
 		var x_labels = data.map(function(d) { return +d.time_slices}); 
@@ -89,4 +103,3 @@ function getData(route){
 	})
 	buildLiveStatus();
 }
-

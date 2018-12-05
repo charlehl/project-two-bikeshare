@@ -68,6 +68,27 @@ def station_dashboard(station_name):
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
 
+@app.route("/dashboard/<station_name>/<day>")
+def day_dashboard(day):
+	#print(station_name)
+	##day_filt = request.args.get("day")
+	db = client.bike_data_db
+	collection = db.bike_trip.find({"start_station": int(station_name)})
+	#collection = list(collection)
+	collection = collection.find({"weekday": str(day)})
+	trips = []
+	for trip in collection:
+	 	trips.append(trip)
+	#print(len(trips))
+	df_filtered = pd.DataFrame(trips)
+	#print(df_filtered.head())
+
+	df_filtered["time_slices"] = [datetime.strptime(time_sl, "%H:%M:%S").strftime("%H") for time_sl in df_filtered["start_time"]]
+	df_grouped = df_filtered.groupby("time_slices")["duration"].sum()
+	df_grouped = df_grouped.reset_index()
+	df_grouped = df_grouped.sort_values("time_slices")	
+	return df_grouped.to_json(orient='records')
+
 @app.route("/heatplots")
 def plots():
 	#print(start_date)

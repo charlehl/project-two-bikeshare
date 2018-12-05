@@ -24,15 +24,33 @@
                 <div id= "panel-status" class="panel-body"></div>
               </div>
             </div>
-          </div>    
-      <div class="row">
-        <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
-        <div class="col-md-12">
-        <div id="graph"></div>
-        </div>
-    </div>
+            <div class = "col-md-8">
+
+              <div class="row">
+                <div class = "col-md-12">
+                  <select name ="weekday_dropdownSelect" id="weekday_dropdownSelect" onchange="dayData(this.value)">
+                    <option value = "monday">Monday</option>
+                    <option value = "tuesday">Tuesday</option>
+                    <option value = "wednesday">Wednesday</option>
+                    <option value = "thursday">Thursday</option>
+                    <option value = "friday">Friday</option>
+                    <option value = "saturday">Saturday</option>
+                    <option value = "sunday">Sunday</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div id="graph"></div>
+                </div>
+              </div>
+
+            </div>
+        </div>    
+
   
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="/static/js/dashapp.js"></script>
