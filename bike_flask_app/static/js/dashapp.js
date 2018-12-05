@@ -1,3 +1,4 @@
+// Function to build live status
 function buildLiveStatus() {
 
 	var url = "https://bikeshare.metro.net/stations/json/"
@@ -35,6 +36,7 @@ function buildLiveStatus() {
 }
 //Read the stations data from the geojson & Assign the stations from the mongodb to the dropdown menu options
 var url = "https://bikeshare.metro.net/stations/json/"
+
 
 //For Assigning the initial default Plot
 function initData(){
