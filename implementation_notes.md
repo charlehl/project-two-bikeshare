@@ -1,6 +1,6 @@
 
-##How to Pass Data between javascript and python flask
-#HTML
+## How to Pass Data between javascript and python flask
+# HTML
 <form  action="" method="post">
   <div>
     <label for="start">Enter start date:</label>
