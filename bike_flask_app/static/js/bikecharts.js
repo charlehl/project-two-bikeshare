@@ -64,7 +64,7 @@ function initialBar (pass_type) {
         .attr("y", 0 - (margin.top / 2))
         .attr("text-anchor", "middle")  
         .style("font-size", "20px") 
-        .text("Bike rental time filtered by Pass Type");    
+        .text("Bike rental time by Pass Type");    
 	  
 	    // Add a label to the y axis
 	    svg.append("text")
