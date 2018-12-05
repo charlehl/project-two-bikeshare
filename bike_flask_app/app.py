@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 # uri="mongodb://localhost:27017/bike_data_db"
 # mongo = PyMongo(app, uri)
-conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
+conn = os.environ.get('MONGODB_URI', '') or 'mongodb://localhost:27017/bike_data_db'
 #conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 
@@ -33,7 +33,7 @@ start_date = "2018-07-01"
 end_date = "2018-07-02"
 #start_time = "12:00:00"
 #end_time = "23:59:59"
-
+#bike_data_db = heroku_9cs4xj21
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -225,7 +225,7 @@ def bike_boundary():
 	la_boundary = list(la_boundary)
 	
 	for i in la_boundary:
-		i.pop('id', None)
+		i.pop('_id', None)
 
 	return(jsonify(la_boundary))
 
