@@ -197,5 +197,16 @@ def pie_data():
 
 	return pie_df.to_json(orient='records')
 
+@app.route("/bike_boundary")
+def bike_boundary():
+	db = client.bike_data_db
+	la_boundary = db.la_boundary.find()
+	la_boundary = list(la_boundary)
+	
+	for i in la_boundary:
+		i.pop('id', None)
+
+	return(jsonify(la_boundary))
+
 if __name__ == "__main__":
     app.run(debug=True)
