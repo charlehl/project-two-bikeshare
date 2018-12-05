@@ -4,13 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Bike Share Charts</title>
+        <title>Bike Share Template</title>
         <!--<script src="https://d3js.org/d3.v4.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
     </head>
   <body>
+
   <div class="container-fluid">
         <!-- NAVBAR
     ================================================== -->
@@ -42,23 +43,42 @@
       <!-- End of NAVBAR
       ================================================== -->  
 
-      <div class="row">
-       <div class="col-md-12 jumbotron text-center">
-         <h2>Bike Usage Volume by weekday</h2>
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Stations Status</h1>
+        <p>Some information for the user</p>
       </div>
     </div>
-      
-    <div class="row"> 
-      <div class="col-md-2">  
-      <label for="sel1">Pass Type:</label>  
-      <select class="btn btn-primary dropdown-toggle" name="dropdownSelect" id="dropdownSelect" onchange="bar_data(this.value)"> 
-          <option value="One Day Pass">One Day Pass</option>
-          <option value="Monthly Pass">Monthly Pass</option>
-          <option value="Walk-up">Walk Up</option>
-          <option value="Flex Pass">Flex Pass</option>
-      </select>
-      </div>  
-    </div>    
+    <div class="row">
+      <div class="col-md-4">
+          <a href="/">Home</a> <br>
+        <div class="well">
+          <h5>SELECT Station Name:</h5>
+          <select name ="station_dropdownSelect" id="station_dropdownSelect" onchange="changeStation(this.value)"></select>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Live Status</h3>
+          </div>
+          <div id= "panel-status" class="panel-body"></div>
+        </div>
+      </div>
+       
+
+    </div>
+    <!--<div id = "weekdayDropdown"></div>-->
+    
+    <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
+    <div class="row">
+        <div class="col-md-12">  
+        <select name="dropdownSelect" id="dropdownSelect" onchange="bar_data(this.value)">
+            <option value="One Day Pass">One Day Pass</option>
+            <option value="Monthly Pass">Monthly Pass</option>
+            <option value="Walk-up">Walk Up</option>
+            <option value="Flex Pass">Flex Pass</option>
+        </select>
+        </div>
+    </div> 
     <div class="row">
         <div class="col-md-6">
             <div id="passBar"></div>
@@ -67,7 +87,6 @@
             <div id="passPie"></div>
         </div>
     </div>
-  </div>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>  
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="/static/js/bikecharts.js"></script>
