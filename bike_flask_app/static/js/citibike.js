@@ -140,9 +140,8 @@ d3.json(link, function(data) {
     }
   }).addTo(myMap);
 
-//county_link = "http://boundaries.latimes.com/1.0/boundary-set/la-county-neighborhoods-v5/?format=geojson"
-  newlink ="http://s3-us-west-2.amazonaws.com/boundaries.latimes.com/archive/1.0/boundary-set/la-county-neighborhoods-v5.geojson"
-  d3.json(newlink, function(request){
+  //newlink ="http://s3-us-west-2.amazonaws.com/boundaries.latimes.com/archive/1.0/boundary-set/la-county-neighborhoods-v5.geojson"
+  d3.json("/bike_boundary", function(request){
     //console.log(request);
     var boundaries = L.geoJson(request, {
       // Style each feature (in this case a neighborhood)
