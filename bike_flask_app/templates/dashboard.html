@@ -60,7 +60,18 @@
         </div>
         <!--<button id="button" onclick="filter_data()">Filter Data</button>-->
         <div class="col-md-9">
-        <div id="graph"></div>
+            <!--added by Haidy-->
+            <select name="dayDropdown" id="day_dropdownSelect" onchange="WeekDayData(this.value)"> 
+                <option value ="Monday">Monday</option>
+                <option value ="Tuesday">Tuesday</option>
+                <option value ="Wednesday">Wednesday</option>
+                <option value ="Thursday">Thursday</option>
+                <option value ="Friday">Friday</option>
+                <option value ="Saturday">Saturday</option>
+                <option value ="Sunday">Sunday</option>
+            </select>  
+            <!--end added by Haidy-->
+            <div id="graph"></div>
         </div>
     </div>
 
