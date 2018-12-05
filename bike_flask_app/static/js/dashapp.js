@@ -86,7 +86,6 @@ function getData(route){
 		Plotly.restyle("graph", "x", [x_labels]);
 		Plotly.restyle("graph", "y", [y_labels]);
 	})
-	*/
 	buildLiveStatus();
 }
 
