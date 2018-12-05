@@ -49,7 +49,8 @@ def dashboard():
 @app.route("/bikecharts.html")
 def bikecharts():
 	return render_template("bikecharts.html")
-
+#Hashed by Haidy
+'''
 @app.route("/dashboard/<station_name>")
 def station_dashboard(station_name):
 	#print(station_name)
@@ -68,15 +69,16 @@ def station_dashboard(station_name):
 	df_grouped = df_grouped.reset_index()
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
-
-@app.route("/dashboard/<station_name>/<day>")
+'''
+@app.route("/dashboard/<station_name>/<week_day>")
 def day_dashboard(day):
 	#print(station_name)
 	##day_filt = request.args.get("day")
 	db = client.bike_data_db
-	collection = db.bike_trip.find({"start_station": int(station_name)})
+	##changed by Haidy##
+	collection = db.bike_trip.find({"$and":[{"start_station": int(station_name)},{"weekday": str(week_day)}]} )
 	#collection = list(collection)
-	collection = collection.find({"weekday": str(day)})
+	##end change##
 	trips = []
 	for trip in collection:
 	 	trips.append(trip)
