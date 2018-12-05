@@ -84,6 +84,23 @@ function getData(route){
 		Plotly.restyle("graph", "x", [x_labels]);
 		Plotly.restyle("graph", "y", [y_labels]);
 	})
+	*/
 	buildLiveStatus();
 }
 
+//Function to read the data from the selection of user and call the API
+function dayData(route){
+	console.log(route);
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var day = d3.select("#weekday_dropdownSelect").property("value");
+	d3.json(`/dashboard/${station_name}/${route}`).then(function(data){
+		console.log(data);
+		
+		var x_labels = data.map(function(d) { return +d.time_slices}); 
+		var y_labels = data.map(function(d) { return +d.duration});
+		
+		Plotly.restyle("graph", "x", [x_labels]);
+		Plotly.restyle("graph", "y", [y_labels]);
+	})
+	buildLiveStatus();
+}
