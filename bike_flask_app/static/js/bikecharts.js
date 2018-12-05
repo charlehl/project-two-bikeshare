@@ -53,15 +53,12 @@ function initialBar (pass_type) {
 
 		// Add the Y Axis
 		yAxis.attr("class", "y axis")
-		var yaxis = svg.append("g")
-		    .attr("class", "y axis")
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
 		    .tickSizeInner(0)
 		    .tickPadding(6)
 		    .tickSize(0, 0));
 		// Add title   
-		 
 		svg.append("text")
         .attr("x", (width / 2))             
         .attr("y", 0 - (margin.top / 2))
@@ -76,7 +73,7 @@ function initialBar (pass_type) {
 	        .attr("x", 0 - (height / 2))
 	        .attr("dy", "1em")
 	        .style("text-anchor", "middle")
-	        .text("Usage Volume (minutes)")
+	        .text("Bikes Usage Volume (minutes)")
 	        .attr("class", "y axis label");
 
   		var selectPassGroup = svg.selectAll(".passGroup")
@@ -123,7 +120,7 @@ function bar_data(pass_type) {
 		    .tickPadding(10));
 
 	  	//Add the Y Axis
-		yAxis
+		yAxis.attr("class", "y axis")
 		    .call(d3.axisLeft(y)
 		    .ticks(5)
 		    .tickSizeInner(0)
@@ -136,7 +133,7 @@ function bar_data(pass_type) {
 	    selectPassGroup.selectAll("rect.bar")  
 	    	.data(bar_data)
 	    	.transition()
-	    	.duration(1000)
+	    	.duration(1500)
 		    .attr("x", function(d) { return x(d.weekday); })
 		    .attr("y", function(d) { return y(d.duration); })
 		    .attr("height", function(d) { return height - y(d.duration); });
