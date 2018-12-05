@@ -22,8 +22,8 @@ app = Flask(__name__)
 
 # uri="mongodb://localhost:27017/bike_data_db"
 # mongo = PyMongo(app, uri)
-#conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
-conn = 'mongodb://localhost:27017'
+conn = os.environ.get('DATABASE_URL', '') or 'mongodb://localhost:27017'
+#conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 
 url = "https://bikeshare.metro.net/stations/json/"

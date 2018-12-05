@@ -5,6 +5,80 @@ html, body, #map {
   margin: 1%
 }
 
+
+/* CUSTOMIZING THE NAVBAR
+----------------------- */
+
+.navbar{
+  margin-top: -30px;
+  margin-bottom: 0;
+  margin-right: -60px;
+  margin-left: -60px;
+  padding-bottom: 10px;
+  padding-left:20px;
+  color: #d1e1ed;
+  background:#083b47;
+  border-color: #083b47;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover{
+  color: #b5ce05;
+}
+
+.navbar-inverse .navbar-nav > .open > a{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu > li > a{
+  color: #083b47;
+  background:#d1e1ed;
+}
+
+.dropdown-menu > li > a:hover{
+  color:#083b47;
+  background:#b5ce05;
+}  
+
+.navbar-inverse .navbar-brand{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-brand:hover{
+  color: #b5ce05;
+}
+
+/* END OF CUSTOMIZING THE NAVBAR
+----------------------------- */
+
+/* CUSTOMIZING THE BARS
+-------------------- */
+
+.bar {
+  fill: green;
+}
+
+.bar:hover {
+  fill: orange;
+}
+
+/* END OF CUSTOMIZING THE BARS
+--------------------------- */
+
 .map-overlay {
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   position: absolute;
@@ -42,6 +116,7 @@ html, body, #map {
   margin: 0;
   cursor: ew-resize;
 }
+
 
 /* Citi Bike */
 html,
