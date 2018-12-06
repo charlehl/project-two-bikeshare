@@ -159,3 +159,48 @@ input[type=button] {
   margin-left: 10%;
 }
 
+@media (max-width: 992px){
+  /* Navbar positioning foo */
+
+  .navbar{
+  margin-top: -12px;
+  margin-right: -210px;
+  margin-left: -25px;
+  padding-left: 0;
+  }
+
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a{
+    color: #083b47;
+    background:#d1e1ed;
+  }
+
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover{
+    color: #083b47;
+    background:#b5ce05;
+  }
+
+  .navbar-toggle{
+    color: #d1e1ed;
+    border-color:#083b47;
+  }
+
+  .navbar-inverse .navbar-toggle{
+    color: #d1e1ed;
+    border-color:#083b47;
+  }
+
+  .navbar-inverse .navbar-toggle:hover{
+    color: #d1e1ed;
+    border-color:#083b47;
+    background-color: #b5ce05;
+  }
+
+  .navbar-inverse .navbar-toggle:focus{
+    color: #d1e1ed;
+    border-color:#083b47;
+    background-color: #083b47;
+  }
+
+  .navbar-inverse .navbar-toggle .icon-bar{
+    background-color: #d1e1ed;
+  }
