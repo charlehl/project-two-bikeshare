@@ -32,6 +32,8 @@ def load_mongo_db():
     collection = db.bike_trip
     # Drop everything before insertion    
     collection.drop()
+    db.bike_rental.drop()
+    db.la_boundary.drop()
     # load json string
     items_db = json.loads(items)
     print("Inserting records into db...")
@@ -71,6 +73,16 @@ def load_mongo_db():
     collection = db.la_boundary
     r = requests.get(b_link)
     collection.insert(r.json())
+
+    # Pie Data
+    print("Upload Pie Data")
+    db = client.bike_data_db
+    bike_trip = db.bike_trip.find()
+    bike_trip = list(bike_trip)
+    df = pd.DataFrame(bike_trip)
+    grouped_df = df[['passholder_type','trip_id']].groupby('passholder_type').count()
+    pie_df = grouped_df.reset_index()
+    db.bike_rental.insert(json.loads(pie_df.to_json(orient='index')))
     # Close mongo db client
     client.close()
 

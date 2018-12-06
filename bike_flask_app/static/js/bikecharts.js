@@ -34,7 +34,7 @@ function initialBar (pass_type) {
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
     
 	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
-		console.log(bar_data)
+		//console.log(bar_data)
 		var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 		var bar_data = bar_data.sort(function sortByDay(a, b) {
 			return days.indexOf(a.weekday) > days.indexOf(b.weekday);
@@ -154,13 +154,13 @@ function bar_data(pass_type) {
 //Pie Chart count of total rentals grouped by Pass Type
  d3.json("/pie_data").then((pie_data) => {
  	//console.log(pie_data)
- 	pie_data.forEach((data) => {
-  		data.weekday = data.weekday;
-  		data.duration =+ data.duration;
-  		});
-	var pieLabels = pie_data.map(function(d) { return d.passholder_type});
+	var data = [];
+	Object.keys(pie_data).forEach(function(key, idx, temp){
+		data.push(pie_data[key]);
+	});
+	var pieLabels = data.map(function(d) { return d.passholder_type});
 	//console.log(pieLabels);  
-	var pieValues = pie_data.map(function(d) { return d.trip_id});
+	var pieValues = data.map(function(d) { return +d.trip_id});
 	//console.log(pieValues);
 
 	var colors = ['rgba(155, 140, 28, 0.7)','rgba(155, 77, 28, 0.7)','rgb(66, 135, 178)','rgba(28, 155, 77, 0.7)','rgb(155, 28, 43)']
@@ -169,7 +169,7 @@ function bar_data(pass_type) {
 		labels: pieLabels,
 		values: pieValues,
 		type: "pie",
-		text: pie_data.map(function(d) { return d.passholder_type}),
+		text: pieLabels,
 		marker: {
 			colors: colors
 		},
