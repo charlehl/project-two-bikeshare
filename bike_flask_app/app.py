@@ -240,5 +240,43 @@ def bike_boundary():
 
 	return(jsonify(la_boundary))
 
+@app.route("/stacked/<station_id>", methods=['GET', 'POST'])
+def dashboard_stacked(station_id):
+	station_id = int(station_id)
+	db = client.bike_data_db
+	collection = db.bike_trip
+	rental_start = collection.find({'start_station': station_id})
+	rental_start = list(rental_start)
+	rental_df = pd.DataFrame(rental_start)
+	rental_df = rental_df[['passholder_type','weekday','start_station']].groupby(['passholder_type','weekday']).count()
+	rental_df = rental_df.reset_index()
+	rental_item = dict()
+	for index, row in rental_df.iterrows():
+		key = row['passholder_type']
+		day = row['weekday']
+		start_station = row['start_station']
+		if (key in rental_item):
+			rental_item[key].append({'weekday': day, 'start_station': start_station})
+		else:
+			rental_item[key] = [{'weekday': day, 'start_station': start_station}]
+	rental_list = [rental_item]
+	
+	rental_start = collection.find({'end_station': station_id})
+	rental_start = list(rental_start)
+	rental_df = pd.DataFrame(rental_start)
+	rental_df = rental_df[['passholder_type','weekday','end_station']].groupby(['passholder_type','weekday']).count()
+	rental_df = rental_df.reset_index()
+	rental_item = dict()
+	for index, row in rental_df.iterrows():
+		key = row['passholder_type']
+		day = row['weekday']
+		end_station = row['end_station']
+		if (key in rental_item):
+			rental_item[key].append({'weekday': day, 'end_station': end_station})
+		else:
+			rental_item[key] = [{'weekday': day, 'end_station': end_station}]
+	rental_list.append(rental_item)
+	return(jsonify(rental_list))
+
 if __name__ == "__main__":
     app.run(debug=True)
