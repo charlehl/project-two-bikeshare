@@ -209,10 +209,14 @@ def bar_data():
 	pass_type = request.args.get('pass_type')
 
 	bike_trip = list(bike_trip)
+	for item in bike_trip:
+		if pass_type in item.keys():
+			return(jsonify(item[pass_type]))
+	
 	return(jsonify(bike_trip[0][pass_type]))
 
-@app.route("/pie_data")
-def pie_data():
+@app.route("/pie_data_old")
+def pie_data_old():
 
 	db = client.bike_data_db
 
@@ -229,6 +233,24 @@ def pie_data():
 
 	return pie_df.to_json(orient='records')
 
+@app.route("/pie_data")
+def pie_data():
+
+	db = client.bike_data_db
+	bike_trip = db.bike_rental.find()
+
+	pass_type = request.args.get('pass_type')
+
+	bike_trip = list(bike_trip)
+	for item in bike_trip:
+		item.pop('_id', None)
+		# if pass_type in item.keys():
+		# 	print("Thank You Next")
+		# else:
+		# 	return(jsonify(item))
+	
+	return(jsonify(bike_trip[1]))
+
 @app.route("/bike_boundary")
 def bike_boundary():
 	db = client.bike_data_db
@@ -244,8 +266,7 @@ def bike_boundary():
 def dashboard_stacked(station_id):
 	station_id = int(station_id)
 	db = client.bike_data_db
-	collection = db.bike_trip
-	rental_start = collection.find({'start_station': station_id})
+	rental_start = db.bike_trip.find({'start_station': station_id})
 	rental_start = list(rental_start)
 	rental_df = pd.DataFrame(rental_start)
 	rental_df = rental_df[['passholder_type','weekday','start_station']].groupby(['passholder_type','weekday']).count()
@@ -261,7 +282,7 @@ def dashboard_stacked(station_id):
 			rental_item[key] = [{'weekday': day, 'start_station': start_station}]
 	rental_list = [rental_item]
 	
-	rental_start = collection.find({'end_station': station_id})
+	rental_start = db.bike_trip.find({'end_station': station_id})
 	rental_start = list(rental_start)
 	rental_df = pd.DataFrame(rental_start)
 	rental_df = rental_df[['passholder_type','weekday','end_station']].groupby(['passholder_type','weekday']).count()
