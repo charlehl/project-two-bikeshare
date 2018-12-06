@@ -49,7 +49,8 @@ def dashboard():
 @app.route("/bikecharts.html")
 def bikecharts():
 	return render_template("bikecharts.html")
-
+#Hashed by Haidy
+'''
 @app.route("/dashboard/<station_name>")
 def station_dashboard(station_name):
 	#print(station_name)
@@ -68,7 +69,7 @@ def station_dashboard(station_name):
 	df_grouped = df_grouped.reset_index()
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
-
+'''
 @app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
 def day_dashboard(station_name, week_day):
 	#print(station_name)
@@ -176,8 +177,8 @@ def line_chart(name,weekday):
 	return reset_index.to_json(orient='records')
 
 
-@app.route("/bar_data_old")
-def bar_data_old():
+@app.route("/bar_data")
+def bar_data():
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -200,16 +201,6 @@ def bar_data_old():
 
 
 	return weekday_df.to_json(orient='records')
-
-@app.route("/bar_data")
-def bar_data():
-	db = client.bike_data_db
-	bike_trip = db.bike_rental.find()
-	
-	pass_type = request.args.get('pass_type')
-
-	bike_trip = list(bike_trip)
-	return(jsonify(bike_trip[0][pass_type]))
 
 @app.route("/pie_data")
 def pie_data():
