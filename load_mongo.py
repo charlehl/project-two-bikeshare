@@ -38,6 +38,39 @@ def load_mongo_db():
     db.bike_trip.insert_many(items_db)
     item_count = collection.count_documents({})
     print(f"{item_count} records inserted into db!")
+    
+    # Upload bike_rental
+    print("Upload Bike Rental")
+    db = client.bike_data_db
+
+    bike_trip = db.bike_trip.find()
+
+    full_dict = []
+    for trip in bike_trip:
+        full_dict.append(trip)
+    df = pd.DataFrame(full_dict)
+    df.head().groupby(['passholder_type', 'weekday']).sum()
+    grouped_df = df[['passholder_type','weekday', 'duration']].groupby(['passholder_type','weekday']).sum()
+    group2_df = grouped_df.reset_index()
+    
+    item_db = dict()
+    for index, row in group2_df.iterrows():
+        key = row['passholder_type']
+        day = row['weekday']
+        duration = row['duration']
+        if (key in item_db):
+            item_db[key].append({'weekday': day, 'duration': duration})
+        else:
+            item_db[key] = [{'weekday': day, 'duration': duration}]
+    
+    db.bike_rental.insert(item_db)
+
+    # LA boundary
+    print("Upload LA Boundary")
+    b_link = "http://s3-us-west-2.amazonaws.com/boundaries.latimes.com/archive/1.0/boundary-set/la-county-neighborhoods-v5.geojson"
+    collection = db.la_boundary
+    r = requests.get(b_link)
+    collection.insert(r.json())
     # Close mongo db client
     client.close()
 
