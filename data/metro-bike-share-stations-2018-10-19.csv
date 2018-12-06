@@ -1,0 +1,139 @@
+Station_ID,Station_Name,Go_live_date,Region,Status
+3000,Virtual Station, 2016-07-07 ,N/A,Active
+3005,7th & Flower,7/7/2016,DTLA,Active
+3006,Olive & 8th,7/7/2016,DTLA,Active
+3007,5th & Grand,7/7/2016,DTLA,Active
+3008,Figueroa & 9th,7/7/2016,DTLA,Active
+3010,11th & Maple,7/10/2016,DTLA,Active
+3011,Figueroa & Pico,7/12/2016,DTLA,Active
+3013,Anaheim & Avalon,7/31/2017,Port of LA,Active
+3014,Union Station West Portal,7/7/2016,DTLA,Active
+3016,Los Angeles & Temple,7/7/2016,DTLA,Active
+3018,Grand & Olympic,7/7/2016,DTLA,Active
+3019,12th & Hill,7/7/2016,DTLA,Active
+3020,Hill & Washington,7/7/2016,DTLA,Active
+3021,3rd & Rose,7/7/2016,DTLA,Inactive
+3022,3rd & Santa Fe,7/7/2016,DTLA,Active
+3023,1st & Judge John Aiso,7/7/2016,DTLA,Active
+3024,Hope & 1st,7/13/2016,DTLA,Active
+3025,Grand & Washington,7/7/2016,DTLA,Active
+3026,Figueroa & Cesar Chavez,7/7/2016,DTLA,Active
+3027,Spring & 3rd,7/7/2016,DTLA,Active
+3028,Grand & Temple,7/7/2016,DTLA,Active
+3029,Main & 4th,7/7/2016,DTLA,Active
+3030,Main & 1st,7/7/2016,DTLA,Active
+3031,7th & Spring,7/7/2016,DTLA,Active
+3032,Hope & 6th,7/7/2016,DTLA,Active
+3033,Main & 9th,7/7/2016,DTLA,Active
+3034,Hope & 11th,7/7/2016,DTLA,Active
+3035,Figueroa & 8th,7/7/2016,DTLA,Active
+3036,Willow St & Mateo St,7/7/2016,DTLA,Active
+3037,Imperial & 7th,7/7/2016,DTLA,Active
+3038,Main & 5th,7/7/2016,DTLA,Active
+3040,Wilshire & Witmer,7/7/2016,DTLA,Active
+3042,1st & Central,7/7/2016,DTLA,Active
+3045,18th & San Pedro,7/7/2016,DTLA,Active
+3046,2nd & Hill,7/12/2016,DTLA,Active
+3047,Pico & Flower,7/7/2016,DTLA,Active
+3048,5th & Hewitt,7/13/2016,DTLA,Active
+3049,2nd & Figueroa,7/7/2016,DTLA,Active
+3051,7th & Broadway,7/7/2016,DTLA,Active
+3052,7th & Bixel,7/7/2016,DTLA,Active
+3053,12th & Grand,7/7/2016,DTLA,Inactive
+3054,Factory Place & Alameda,7/7/2016,DTLA,Active
+3055,7th & Main,7/7/2016,DTLA,Inactive
+3056,Grand & 14th,7/7/2016,DTLA,Active
+3057,18th & Figueroa,7/7/2016,DTLA,Active
+3058,Industrial St & Mateo St,7/7/2016,DTLA,Active
+3059,11th & Santee,7/7/2016,DTLA,Inactive
+3060,Pico & Maple,7/7/2016,DTLA,Inactive
+3061,LA Live,5/5/2017,DTLA,Inactive
+3062,3rd & San Pedro,7/7/2016,DTLA,Active
+3063,Olive & 5th,7/7/2016,DTLA,Active
+3064,Grand & 7th,7/11/2016,DTLA,Active
+3065,New High & Ord,7/7/2016,DTLA,Active
+3066,Spring & College,7/7/2016,DTLA,Active
+3067,Main & 6th,7/7/2016,DTLA,Active
+3068,Grand & 3rd,7/7/2016,DTLA,Active
+3069,Broadway & 3rd,7/7/2016,DTLA,Active
+3074,Hope & Olympic,7/7/2016,DTLA,Active
+3075,Broadway & 9th,7/7/2016,DTLA,Active
+3076,9th & Los Angeles,7/7/2016,DTLA,Active
+3077,8th & Wall,7/7/2016,DTLA,Active
+3078,Hill & College,7/7/2016,DTLA,Active
+3079,Temple & Vignes,7/7/2016,DTLA,Inactive
+3080,San Julian & 12th,7/7/2016,DTLA,Active
+3081,Stanford & 12th,7/13/2016,DTLA,Active
+3082,Traction & Rose,8/29/2016,DTLA,Active
+4108,1 LA warehouse,7/7/2016,DTLA,Inactive
+4125,Banning's Landing,7/31/2017,Port of LA,Active
+4126,Cabrillo Beach,7/31/2017,Port of LA,Active
+4127,Catalina Express,7/31/2017,Port of LA,Active
+4129,Crafted 22nd St Park,7/31/2017,Port of LA,Active
+4130,DoubleTree Hotel,7/31/2017,Port of LA,Active
+4131,Downtown Harbor,7/31/2017,Port of LA,Active
+4132,Fanfare Fountain,7/31/2017,Port of LA,Active
+4133,Ports O'Call,7/31/2017,Port of LA,Active
+4134,USS IOWA,7/31/2017,Port of LA,Active
+4135,Waterfront Park (East),7/31/2017,Port of LA,Active
+4136,Waterfront Park (West),7/31/2017,Port of LA,Active
+4138,Old Pasadena,7/14/2017,Pasadena,Inactive
+4142,Pasadena Convention Center,7/14/2017,Pasadena,Inactive
+4143,Garfield & Colorado,7/14/2017,Pasadena,Inactive
+4144,Cordova & Lake,7/14/2017,Pasadena,Inactive
+4146,City Hall West,7/14/2017,Pasadena,Inactive
+4147,Fair Oaks & Mercantile Alley,7/14/2017,Pasadena,Inactive
+4148,Pasadena Central Library,7/14/2017,Pasadena,Inactive
+4149,Arroyo Parkway & Bellevue,7/14/2017,Pasadena,Inactive
+4150,Villa Parke,7/14/2017,Pasadena,Inactive
+4151,Los Robles & Cordova,7/14/2017,Pasadena,Inactive
+4152,Pasadena Museum,7/14/2017,Pasadena,Inactive
+4153,Rose Bowl,7/14/2017,Pasadena,Inactive
+4154,Fair Oaks & Peoria,7/14/2017,Pasadena,Inactive
+4155,Lake & Union,7/14/2017,Pasadena,Inactive
+4156,Madison & Walnut,7/14/2017,Pasadena,Inactive
+4157,Lake & Del Mar,7/14/2017,Pasadena,Inactive
+4158,Lake & California,7/14/2017,Pasadena,Inactive
+4159,Pasadena City College,7/14/2017,Pasadena,Inactive
+4160,Fillmore Station,7/14/2017,Pasadena,Inactive
+4162,Memorial Park Station,7/14/2017,Pasadena,Inactive
+4163,Lake & Locust,7/14/2017,Pasadena,Inactive
+4164,Allen Station,7/14/2017,Pasadena,Inactive
+4165,Del Mar Station,7/14/2017,Pasadena,Inactive
+4166,Colorado & Hill,7/14/2017,Pasadena,Inactive
+4167,Pasadena & Dayton,7/14/2017,Pasadena,Inactive
+4169,Oakland & Union,7/14/2017,Pasadena,Inactive
+4170,Lake & Merrett,7/14/2017,Pasadena,Inactive
+4174,Fair Oaks & Hammond,7/14/2017,Pasadena,Inactive
+4176,Caltech East,7/14/2017,Pasadena,Inactive
+4177,Madison & Colorado,7/14/2017,Pasadena,Inactive
+4180,Caltech West,7/21/2017,Pasadena,Inactive
+4181,Oak Knoll & Colorado,7/14/2017,Pasadena,Inactive
+4183,Catalina & Colorado,7/14/2017,Pasadena,Inactive
+4194,Union Station East,7/25/2017,DTLA,Inactive
+4202,Abbot Kinney & Cadiz,7/7/2017,Venice,Active
+4204,Washington & Abbot Kinney,7/7/2017,Venice,Active
+4205,Venice & Lincoln,7/7/2017,Venice,Active
+4206,California & Lincoln,7/7/2017,Venice,Active
+4207,Rose & 7th,7/7/2017,Venice,Active
+4208,Rose & Rennie,7/7/2017,Venice,Active
+4209,Rose & Main,7/7/2017,Venice,Active
+4210,Ocean Front Walk & North Venice,7/7/2017,Venice,Active
+4211,Pacific & North Venice,7/7/2017,Venice,Active
+4212,Windward & Main,7/7/2017,Venice,Active
+4213,7th & Westminster,7/7/2017,Venice,Active
+4214,Ocean Front Walk & Navy,7/7/2017,Venice,Active
+4215,Downtown Santa Monica Expo Line Station,7/7/2017,Venice,Active
+4216,17th St / SMC Expo Line Station,7/7/2017,Venice,Active
+4217,Venice & Abbot Kinney,7/7/2017,Venice,Inactive
+4220,Park & Echo Park,9/28/2017,DTLA,Active
+4227,Grand/LATTC,12/15/2017,DTLA,Inactive
+4244,Expo Park/USC Station,6/28/2018,DTLA,Inactive
+4245,University & Hoover,7/8/2018,DTLA,Active
+4246,32nd & Figueroa,7/3/2018,DTLA,Active
+4248,29th & Ellendale,7/2/2018,DTLA,Active
+4249,Figueroa & McCarthy Way,6/29/2018,DTLA,Active
+4250,Severance & Adams,7/9/2018,DTLA,Active
+4254,Hoover & 29th,6/28/2018,DTLA,Active
+4267,28th & University,8/23/2018,DTLA,Active
+4273,Hoover & 32nd,10/8/2018,DTLA,Active
