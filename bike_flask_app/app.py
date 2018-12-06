@@ -49,8 +49,7 @@ def dashboard():
 @app.route("/bikecharts.html")
 def bikecharts():
 	return render_template("bikecharts.html")
-#Hashed by Haidy
-'''
+
 @app.route("/dashboard/<station_name>")
 def station_dashboard(station_name):
 	#print(station_name)
@@ -69,7 +68,7 @@ def station_dashboard(station_name):
 	df_grouped = df_grouped.reset_index()
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
-'''
+
 @app.route("/dashboard/<station_name>/<week_day>")
 def day_dashboard(day):
 	#print(station_name)
