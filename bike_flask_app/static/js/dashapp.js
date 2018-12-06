@@ -32,7 +32,8 @@ function buildLiveStatus() {
 		Object.entries(stationInfo).forEach(([key,value]) =>{
 		data.append("h6").text(`${key}: ${value}`);
 		});
-	});	
+	});
+	createBarStacked();	
 }
 //Read the stations data from the geojson & Assign the stations from the mongodb to the dropdown menu options
 var url = "https://bikeshare.metro.net/stations/json/"
@@ -112,4 +113,98 @@ function WeekDayData(week_day){
 			Plotly.restyle("graph", "y", [y_labels]);
 		});
 	
+}
+
+//function
+function createBarStacked(){
+	//console.log("hi");
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	d3.json(`/stacked/${station_name}`).then(function(data){
+		//console.log(data[0]);
+		var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+		Object.keys(data[0]).forEach(function(key, idx){
+			//console.log(data[0][key]);
+			data[0][key] = data[0][key].sort(function sortByDay(a, b) {
+				a.start_station = +a.start_station;
+				b.start_station = +b.start_station;
+				return days.indexOf(a.weekday) > days.indexOf(b.weekday);
+			});
+		});
+		Object.keys(data[1]).forEach(function(key, idx){
+			//console.log(data[0][key]);
+			data[1][key] = data[1][key].sort(function sortByDay(a, b) {
+				a.end_station = +a.end_station;
+				b.end_station = +b.end_station;
+				return days.indexOf(a.weekday) > days.indexOf(b.weekday);
+			});
+		});
+		//console.log(data[1]);
+		//console.log(data[0]['Flex Pass'].map(function (item){ return item.weekday}));
+		//console.log(data[0]['Flex Pass'].map(function (item){ return item.start_station}));
+		var trace1 = {
+			x: data[0]['Flex Pass'].map(function (item){ return item.weekday}),
+			y: data[0]['Flex Pass'].map(function (item){ return item.start_station}),
+			name: 'Flex Pass',
+			type: 'bar'
+		};
+		var trace2 = {
+			x: data[0]['Monthly Pass'].map(function (item){ return item.weekday}),
+			y: data[0]['Monthly Pass'].map(function (item){ return item.start_station}),
+			name: 'Monthly Pass',
+			type: 'bar'
+		};
+		var trace3 = {
+			x: data[0]['One Day Pass'].map(function (item){ return item.weekday}),
+			y: data[0]['One Day Pass'].map(function (item){ return item.start_station}),
+			name: 'One Day Pass',
+			type: 'bar'
+		};
+		var trace4 = {
+			x: data[0]['Walk-up'].map(function (item){ return item.weekday}),
+			y: data[0]['Walk-up'].map(function (item){ return item.start_station}),
+			name: 'Walk-Up',
+			type: 'bar'
+		};
+		var bardata = [trace1, trace2, trace3, trace4];
+	  
+		var layout = {
+			title: `Station: ${station_name} Pick-Ups`,
+			barmode: 'stack'
+		};
+		Plotly.newPlot('bar-stack-start', bardata, layout);
+
+		//console.log(data[1]['Flex Pass'].map(function (item){ return item.weekday}));
+		//console.log(data[1]['Flex Pass'].map(function (item){ return item.end_station}));
+		var trace1 = {
+			x: data[1]['Flex Pass'].map(function (item){ return item.weekday}),
+			y: data[1]['Flex Pass'].map(function (item){ return item.end_station}),
+			name: 'Flex Pass',
+			type: 'bar'
+		};
+		var trace2 = {
+			x: data[1]['Monthly Pass'].map(function (item){ return item.weekday}),
+			y: data[1]['Monthly Pass'].map(function (item){ return item.end_station}),
+			name: 'Monthly Pass',
+			type: 'bar'
+		};
+		var trace3 = {
+			x: data[1]['One Day Pass'].map(function (item){ return item.weekday}),
+			y: data[1]['One Day Pass'].map(function (item){ return item.end_station}),
+			name: 'One Day Pass',
+			type: 'bar'
+		};
+		var trace4 = {
+			x: data[1]['Walk-up'].map(function (item){ return item.weekday}),
+			y: data[1]['Walk-up'].map(function (item){ return item.end_station}),
+			name: 'Walk-Up',
+			type: 'bar'
+		};
+		var bardata = [trace1, trace2, trace3, trace4];
+	  
+		var layout = {
+			title: `Station: ${station_name} Drop-Offs`,
+			barmode: 'stack'
+		};		
+		Plotly.newPlot('bar-stack-end', bardata, layout);
+	});
 }
