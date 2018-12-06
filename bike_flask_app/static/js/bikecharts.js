@@ -34,7 +34,11 @@ function initialBar (pass_type) {
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
     
 	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
-	console.log(bar_data)
+		console.log(bar_data)
+		var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+		var bar_data = bar_data.sort(function sortByDay(a, b) {
+			return days.indexOf(a.weekday) > days.indexOf(b.weekday);
+		});
 
   		bar_data.forEach((data) => {
   		data.weekday = data.weekday;
@@ -104,7 +108,12 @@ function bar_data(pass_type) {
 	var pass_type = d3.select('#dropdownSelect').node().selectedOptions[0].value;
 	d3.json(`/bar_data?pass_type=${pass_type}`).then((bar_data) => {
 	  	//console.log(bar_data)
-	  	
+		  
+		var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+		var bar_data = bar_data.sort(function sortByDay(a, b) {
+			return days.indexOf(a.weekday) > days.indexOf(b.weekday);
+		});
+
 	  	bar_data.forEach((data) => {
 	  		data.weekday = data.weekday;
 	  		data.duration =+ data.duration;

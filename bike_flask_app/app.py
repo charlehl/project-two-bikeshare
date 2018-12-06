@@ -177,8 +177,8 @@ def line_chart(name,weekday):
 	return reset_index.to_json(orient='records')
 
 
-@app.route("/bar_data")
-def bar_data():
+@app.route("/bar_data_old")
+def bar_data_old():
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -201,6 +201,16 @@ def bar_data():
 
 
 	return weekday_df.to_json(orient='records')
+
+@app.route("/bar_data")
+def bar_data():
+	db = client.bike_data_db
+	bike_trip = db.bike_rental.find()
+	
+	pass_type = request.args.get('pass_type')
+
+	bike_trip = list(bike_trip)
+	return(jsonify(bike_trip[0][pass_type]))
 
 @app.route("/pie_data")
 def pie_data():

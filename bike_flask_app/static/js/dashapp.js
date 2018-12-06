@@ -41,10 +41,7 @@ var url = "https://bikeshare.metro.net/stations/json/"
 //For Assigning the initial default Plot
 function initData(){
 	var station_name = d3.select("#station_dropdownSelect").property("value");
-	// Added/changed by Haidy//
-	var week_day = d3.select("#day_dropdownSelect").property("value");
-	var defaultUrl = "/dashboard/" + station_name + "/" + week_day
-	//End added by Haidy
+	var defaultUrl = "/dashboard/" + station_name
 	//buildLiveStatus(arr[0]);
 	d3.json(defaultUrl).then(function defaultPlot(trace){
 		//console.log(trace);
@@ -80,10 +77,7 @@ d3.json(url).then(function(data) {
 function getData(route){
 	//console.log(route);
 	var station_name = d3.select("#station_dropdownSelect").property("value");
-	//Added by Haidy
-	function WeekDayData(new_route) {
-		var week_day = d3.select("#day_dropdownSelect").property("value");
-		d3.json(`/dashboard/${route}/${new_route}`).then(function(data){
+	d3.json(`/dashboard/${route}`).then(function(data){
 		//console.log(data);
 		
 			var x_labels = data.map(function(d) { return +d.time_slices}); 
@@ -92,17 +86,10 @@ function getData(route){
 			Plotly.restyle("graph", "x", [x_labels]);
 			Plotly.restyle("graph", "y", [y_labels]);
 	})
-	//added by Haidy
-	}
-	//end added
-	/**///Haidy
-
 	buildLiveStatus();
 }
 
-//removed by Haidy
 //Function to read the data from the selection of user and call the API
-/*
 function dayData(route){
 	console.log(route);
 	var station_name = d3.select("#station_dropdownSelect").property("value");
@@ -118,5 +105,4 @@ function dayData(route){
 	})
 	buildLiveStatus();
 }
-*/
 //end removed
