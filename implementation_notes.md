@@ -67,9 +67,20 @@
 
 		return render_template("index.html")
 
-# How to dump and restore data to a mongodb
+# Heroku App Deployment issues
+- Populating and connecting to database
+- Unable to pull json data from non-secure links
+- Performance issues
+
+## Populating and connecting to database
+### How to dump and restore data to a mongodb
 	mongodump -h localhost:27017 -d bike_data_db -o dump_dir
 	mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
+## Unable to pull json data from non-secure links
+Pre-pulled data and uploaded to mongoDB.  Used flask app to pull data instead.
+
+## Performance issues
+Too slow querying 90k+ data then aggregating and sending to javascript.  Instead pre-queried data possibilities and saved to mongoDB.
 
 # Using mapbox API to route between two points
 	function getRoute() {
