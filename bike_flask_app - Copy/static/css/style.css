@@ -1,0 +1,161 @@
+/* Heat Map */
+html, body, #map {
+  height: 100%;
+  /* width: 100% */
+  margin: 1%
+}
+
+
+/* CUSTOMIZING THE NAVBAR
+----------------------- */
+
+.navbar{
+  margin-top: -30px;
+  margin-bottom: 0;
+  margin-right: -60px;
+  margin-left: -60px;
+  padding-bottom: 10px;
+  padding-left:20px;
+  color: #d1e1ed;
+  background:#083b47;
+  border-color: #083b47;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover{
+  color: #b5ce05;
+}
+
+.navbar-inverse .navbar-nav > .open > a{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu{
+  color: #d1e1ed;
+  background:#083b47;
+}
+
+.dropdown-menu > li > a{
+  color: #083b47;
+  background:#d1e1ed;
+}
+
+.dropdown-menu > li > a:hover{
+  color:#083b47;
+  background:#b5ce05;
+}  
+
+.navbar-inverse .navbar-brand{
+  color: #d1e1ed;
+}
+
+.navbar-inverse .navbar-brand:hover{
+  color: #b5ce05;
+}
+
+/* END OF CUSTOMIZING THE NAVBAR
+----------------------------- */
+
+/* CUSTOMIZING THE BARS
+-------------------- */
+
+.bar {
+  fill: green;
+}
+
+.bar:hover {
+  fill: orange;
+}
+
+/* END OF CUSTOMIZING THE BARS
+--------------------------- */
+
+.map-overlay {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: absolute;
+  width: 25%;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+
+.map-overlay .map-overlay-inner {
+  background-color: #fff;
+  box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.map-overlay h2 {
+  line-height: 24px;
+  display: block;
+  margin: 0 0 10px;
+}
+
+.map-overlay .legend .bar {
+  height: 10px;
+  width: 100%;
+  background: linear-gradient(to right, #FCA107, #7F3121);
+}
+
+.map-overlay input {
+  background-color: transparent;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  cursor: ew-resize;
+}
+
+
+/* Citi Bike */
+html,
+body,
+#map-id {
+  height: 90%;
+  padding: 0;
+  margin: 100;
+}
+
+#navDirections {
+  margin: 5px 5px 5px 5px;
+  padding: 0% 0%;
+  border-width: 10px;
+}
+
+input[type=button] {
+  margin: 4px 2px;
+}
+
+/* Bike Charts */
+.line {
+  fill: none;
+  stroke: #999999;
+  stroke-width: 2px;
+}
+
+.selected{
+  stroke: #EF5285;
+}
+
+.bar {
+  fill:#447777;
+}
+
+#passPie {
+  margin-left: 30%;
+}
+#dropdownSelect {
+  margin-left: 10%;
+}
+
