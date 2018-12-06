@@ -1,6 +1,6 @@
 
-## How to Pass Data between javascript and python flask
-# HTML
+# How to Pass Data between javascript and python flask
+## HTML
 <form  action="" method="post">
   <div>
     <label for="start">Enter start date:</label>
@@ -16,7 +16,7 @@
   </div>
 </form> 
 
-# Javascript
+## Javascript
 $('#heat-form-submit').on('click', function(e){
   e.preventDefault();
   var start = $('input#start-date').val(),
@@ -57,7 +57,7 @@ $('#heat-form-submit').on('click', function(e){
         console.log(data);
         });
 
-# Flask portion
+## Flask portion
 @app.route("/api/getHeatData", methods=["GET", "POST"])
 def stations():
 	if request.method == "POST":
@@ -68,11 +68,11 @@ def stations():
 		
 	return render_template("index.html")
 
-## How to dump and restore data to a mongodb
+# How to dump and restore data to a mongodb
 mongodump -h localhost:27017 -d bike_data_db -o dump_dir
 mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
 
-## Using mapbox API to route between two points
+# Using mapbox API to route between two points
 function getRoute() {
   //console.log(myLocationCoords);
   if(myLocationCoords.length >= 1 && stationArray.length >= 1) {
@@ -125,7 +125,7 @@ function getRoute() {
   clearLocations();
 }
 
-## Locating Yourself on Map
+# Locating Yourself on Map
 // Function set to button on html to locate yourself
 function getLocation() {
   myMap.locate({setView: true, maxZoom: 16});
