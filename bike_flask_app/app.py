@@ -69,8 +69,8 @@ def station_dashboard(station_name):
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
 
-@app.route("/dashboard/<station_name>/<week_day>")
-def day_dashboard(day):
+@app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
+def day_dashboard(station_name, week_day):
 	#print(station_name)
 	##day_filt = request.args.get("day")
 	db = client.bike_data_db
