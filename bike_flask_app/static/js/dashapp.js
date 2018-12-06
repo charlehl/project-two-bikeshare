@@ -40,8 +40,13 @@ var url = "https://bikeshare.metro.net/stations/json/"
 
 //For Assigning the initial default Plot
 function initData(){
+	var url = "https://bikeshare.metro.net/stations/json/"
+
 	var station_name = d3.select("#station_dropdownSelect").property("value");
-	var defaultUrl = "/dashboard/" + station_name
+	// Added/changed by Haidy//
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+	var defaultUrl = "/dashboard/" + station_name + "/" + week_day
+	//End added by Haidy
 	//buildLiveStatus(arr[0]);
 	d3.json(defaultUrl).then(function defaultPlot(trace){
 		//console.log(trace);
@@ -52,11 +57,11 @@ function initData(){
 		var data = [{x: x_labels, y: y_labels, type:'bar'}];
 
 		var layout = {title: "Customers Popular Times",
-				  xaxis: "Times",
-				  yaxis: "Popularity/Usage",
-				  margin : {t: 30, b: 100, l: 30} };
+		xaxis:{title:"Time Slices(Hourly)"},
+		yaxis:{title: "Popularity/Usage"}
+				}
 
-		Plotly.newPlot('graph', data);
+		Plotly.plot('graph', data, layout);
 		
 });
 }
@@ -74,10 +79,12 @@ d3.json(url).then(function(data) {
 	});
 
 //Function to read the data from the selection of user and call the API
-function getData(route){
+function getData(station_name){
 	//console.log(route);
 	var station_name = d3.select("#station_dropdownSelect").property("value");
-	d3.json(`/dashboard/${route}`).then(function(data){
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+	//Added by Haidy
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
 		//console.log(data);
 		
 			var x_labels = data.map(function(d) { return +d.time_slices}); 
@@ -86,23 +93,23 @@ function getData(route){
 			Plotly.restyle("graph", "x", [x_labels]);
 			Plotly.restyle("graph", "y", [y_labels]);
 	})
+
 	buildLiveStatus();
 }
 
-//Function to read the data from the selection of user and call the API
-// function dayData(route){
-// 	console.log(route);
-// 	var station_name = d3.select("#station_dropdownSelect").property("value");
-// 	var day = d3.select("#weekday_dropdownSelect").property("value");
-// 	d3.json(`/dashboard/${station_name}/${route}`).then(function(data){
-// 		console.log(data);
+function WeekDayData(week_day){
+	//console.log(route);
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+	//Added by Haidy
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
+		//console.log(data);
 		
-// 		var x_labels = data.map(function(d) { return +d.time_slices}); 
-// 		var y_labels = data.map(function(d) { return +d.duration});
+			var x_labels = data.map(function(d) { return +d.time_slices}); 
+			var y_labels = data.map(function(d) { return +d.duration});
 		
-// 		Plotly.restyle("graph", "x", [x_labels]);
-// 		Plotly.restyle("graph", "y", [y_labels]);
-// 	})
-// 	buildLiveStatus();
-// }
-//end removed
+			Plotly.restyle("graph", "x", [x_labels]);
+			Plotly.restyle("graph", "y", [y_labels]);
+		});
+	
+}
