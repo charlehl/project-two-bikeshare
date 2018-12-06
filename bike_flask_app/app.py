@@ -188,7 +188,7 @@ def bar_data():
 	    full_dict.append(trip)
 	df = pd.DataFrame(full_dict)
 
-	# use k to filter dataframe based on passholder type
+	# use pass type to filter dataframe based on passholder type
 	# group by day of week and pass info back into d3
 	
 	pass_type = request.args.get('pass_type')
