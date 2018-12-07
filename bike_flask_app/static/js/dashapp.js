@@ -38,7 +38,7 @@ function buildLiveStatus() {
 //Read the stations data from the geojson & Assign the stations from the mongodb to the dropdown menu options
 var url = "https://bikeshare.metro.net/stations/json/"
 
-
+tick_vals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 //For Assigning the initial default Plot
 function initData(){
 	var url = "https://bikeshare.metro.net/stations/json/"
@@ -58,7 +58,8 @@ function initData(){
 		var data = [{x: x_labels, y: y_labels, type:'bar'}];
 
 		var layout = {title: "Customers Popular Times",
-		xaxis:{title:"Time Slices(Hourly)"},
+		xaxis:{title:"Time Slices(Hourly)",
+				tickvals: tick_vals},
 		yaxis:{title: "Popularity/Usage"}
 				}
 
