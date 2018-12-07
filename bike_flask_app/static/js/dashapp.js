@@ -60,7 +60,9 @@ function initData(){
 		var layout = {title: "Customers Popular Times",
 		xaxis:{title:"Time Slices(Hourly)",
 				tickvals: tick_vals},
-		yaxis:{title: "Popularity/Usage"}
+		yaxis:{title: "Popularity/Usage"},
+		marker: {color:"#1BF0C0",
+	             opacity: 0.6}
 				}
 
 		Plotly.plot('graph', data, layout);
