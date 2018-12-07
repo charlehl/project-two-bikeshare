@@ -162,6 +162,45 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	// Monitor event for location found
 	myMap.on('locationfound', onLocationFound);
 
+# Bike Share Charts
+### Addressing report display speed
+#### Original version: Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
+	db = client.bike_data_db
+
+	bike_trip = db.bike_trip.find()
+
+	full_dict = []
+	for trip in bike_trip:
+	    full_dict.append(trip)
+	df = pd.DataFrame(full_dict)
+
+	# use pass type to filter dataframe based on passholder type
+	# group by day of week and pass info back into d3
+	
+	pass_type = request.args.get('pass_type')
+
+	selection = df.loc[df['passholder_type'] == pass_type, :]    
+	grouped_df = selection[['weekday','duration']].groupby('weekday').sum()
+	index_reset = grouped_df.reset_index()
+	index_reset['weekday'] = pd.Categorical(index_reset['weekday'], categories=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday', 'Sunday'], ordered=True)
+	weekday_df = index_reset.sort_values('weekday')
+
+	return weekday_df.to_json(orient='records')
+
+#### Optimized version: Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
+	db = client.bike_data_db
+	bike_trip = db.bike_rental.find()
+	
+	pass_type = request.args.get('pass_type')
+
+	bike_trip = list(bike_trip)
+	for item in bike_trip:
+		if pass_type in item.keys():
+			return(jsonify(item[pass_type]))
+	
+	return(jsonify(bike_trip[0][pass_type]))
+
+
 # Data Structures
 ## Dashboard
 https://bike-test.herokuapp.com/stacked/3005
