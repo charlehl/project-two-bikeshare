@@ -1,87 +1,7 @@
 
-# How to Pass Data between javascript and python flask
-## HTML
-	<form  action="" method="post">
-	  <div>
-	    <label for="start">Enter start date:</label>
-	    <input type="date" id="start-date" name="start-date" min="2018-07-01" max="2018-08-31" value="2018-07-01">
-	  </div>
-	  <div>
-	    <label for="end">Enter end date:</label>
-	    <input type="date" id="end-date" name="end-date" min="2018-07-02" value="2018-07-31">
-	  </div>
-	  <div>
-	    <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
-	  </div>
-	</form> 
-
-## Javascript
-	$('#heat-form-submit').on('click', function(e){
-	  e.preventDefault();
-	  var start = $('input#start-date').val(),
-	       end = $('input#end-date').val();
-
-	  var formData = 'start-date=' + start + '&end-date=' + end;
-
-	   $.ajax({
-	     type: 'post',
-	     url: '/api/getHeatData',
-	     data: formData,
-	     success: function(results) {
-	       //console.log(results);
-	       var stationCount = results.reduce(function (allNames, name){
-		if(name.start_station in allNames) {
-		  allNames[name.start_station]++;
-		}
-		else {
-		  allNames[name.start_station]=1;
-		}
-		return allNames;
-	       });
-	       console.log(stationCount);
-	       link = "https://bikeshare.metro.net/stations/json/";
-	       var stationData = d3.json(link).then(async function(data) {
-		var testData = {max: 8,
-				data: []
-			      };
-		data.features.forEach((item)=> {
-		  testData.data.push({lat: item.properties.latitude, lng: item.properties.longitude, count: stationCount[item.properties.kioskId]});
-		});
-		return testData;
-		//console.log(results);
-	       });
-	       //console.log(stationData);
-
-	       stationData.then(data => {
-		console.log(data);
-		});
-
-## Flask portion
-	@app.route("/api/getHeatData", methods=["GET", "POST"])
-	def stations():
-		if request.method == "POST":
-			start_date = request.form["start-date"]
-			end_date = request.form["end-date"]
-
-			return(newplots(start_date, end_date))
-
-		return render_template("index.html")
-
-# Heroku App Deployment issues
-- Populating and connecting to database
-- Unable to pull json data from non-secure links
-- Performance issues
-
-## Populating and connecting to database
-### How to dump and restore data to a mongodb
-	mongodump -h localhost:27017 -d bike_data_db -o dump_dir
-	mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
-## Unable to pull json data from non-secure links
-Pre-pulled data and uploaded to mongoDB.  Used flask app to pull data instead.
-
-## Performance issues
-Too slow querying 90k+ data then aggregating and sending to javascript.  Instead pre-queried data possibilities and saved to mongoDB.
-
+# Index
+# Dashboard
+# Citi Bike
 # Using mapbox API to route between two points
 	function getRoute() {
 	  //console.log(myLocationCoords);
@@ -200,12 +120,95 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	
 	return(jsonify(bike_trip[0][pass_type]))
 
-
-# Data Structures
-## Dashboard
+# Miscellaneous
+## Data Structures
+### Dashboard
 https://bike-test.herokuapp.com/stacked/3005
 https://bike-test.herokuapp.com/dashboard/3005
-## Bike Chart
+### Bike Chart
 https://bike-test.herokuapp.com/pie_data
-## Citi Bike App
+### Citi Bike App
 https://bike-test.herokuapp.com/bike_boundary
+
+# How to Pass Data between javascript and python flask
+## HTML
+	<form  action="" method="post">
+	  <div>
+	    <label for="start">Enter start date:</label>
+	    <input type="date" id="start-date" name="start-date" min="2018-07-01" max="2018-08-31" value="2018-07-01">
+	  </div>
+	  <div>
+	    <label for="end">Enter end date:</label>
+	    <input type="date" id="end-date" name="end-date" min="2018-07-02" value="2018-07-31">
+	  </div>
+	  <div>
+	    <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
+	  </div>
+	</form> 
+
+## Javascript
+	$('#heat-form-submit').on('click', function(e){
+	  e.preventDefault();
+	  var start = $('input#start-date').val(),
+	       end = $('input#end-date').val();
+
+	  var formData = 'start-date=' + start + '&end-date=' + end;
+
+	   $.ajax({
+	     type: 'post',
+	     url: '/api/getHeatData',
+	     data: formData,
+	     success: function(results) {
+	       //console.log(results);
+	       var stationCount = results.reduce(function (allNames, name){
+		if(name.start_station in allNames) {
+		  allNames[name.start_station]++;
+		}
+		else {
+		  allNames[name.start_station]=1;
+		}
+		return allNames;
+	       });
+	       console.log(stationCount);
+	       link = "https://bikeshare.metro.net/stations/json/";
+	       var stationData = d3.json(link).then(async function(data) {
+		var testData = {max: 8,
+				data: []
+			      };
+		data.features.forEach((item)=> {
+		  testData.data.push({lat: item.properties.latitude, lng: item.properties.longitude, count: stationCount[item.properties.kioskId]});
+		});
+		return testData;
+		//console.log(results);
+	       });
+	       //console.log(stationData);
+
+	       stationData.then(data => {
+		console.log(data);
+		});
+
+## Flask portion
+	@app.route("/api/getHeatData", methods=["GET", "POST"])
+	def stations():
+		if request.method == "POST":
+			start_date = request.form["start-date"]
+			end_date = request.form["end-date"]
+
+			return(newplots(start_date, end_date))
+
+		return render_template("index.html")
+
+# Heroku App Deployment issues
+- Populating and connecting to database
+- Unable to pull json data from non-secure links
+- Performance issues
+
+## Populating and connecting to database
+### How to dump and restore data to a mongodb
+	mongodump -h localhost:27017 -d bike_data_db -o dump_dir
+	mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
+## Unable to pull json data from non-secure links
+Pre-pulled data and uploaded to mongoDB.  Used flask app to pull data instead.
+
+## Performance issues
+Too slow querying 90k+ data then aggregating and sending to javascript.  Instead pre-queried data possibilities and saved to mongoDB.
