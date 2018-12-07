@@ -161,3 +161,12 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	}
 	// Monitor event for location found
 	myMap.on('locationfound', onLocationFound);
+
+# Data Structures
+## Dashboard
+https://bike-test.herokuapp.com/stacked/3005
+https://bike-test.herokuapp.com/dashboard/3005
+## Bike Chart
+https://bike-test.herokuapp.com/pie_data
+## Citi Bike App
+https://bike-test.herokuapp.com/bike_boundary
