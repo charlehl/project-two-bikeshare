@@ -5,9 +5,16 @@ import json
 from datetime import datetime
 import calendar
 
-def load_mongo_db():
+# Initialize PyMongo to work with MongoDBs
+conn = 'mongodb://localhost:27017'
+client = pymongo.MongoClient(conn)
+
+def load_bike_data_db(csv_file):
+    db = client.bike_data_db
+    collection = db.bike_trip
     print("Load csv data into mongo db...")
-    bike_data_csv = "data/metro-bike-share-trips-2018-q3.csv"
+    bike_data_csv = csv_file
+    #"data/metro-bike-share-trips-2018-q3.csv"
     bike_data_df = pd.read_csv(bike_data_csv)
     # Calculate the day of week
     bike_data_df['weekday'] = bike_data_df.apply(lambda row: calendar.day_name[
@@ -25,22 +32,31 @@ def load_mongo_db():
     # Export to json string
     #items = bike_data_df.to_json(orient='records', date_format='iso', date_unit='s')
     items = bike_data_df.to_json(orient='records')
-    # Initialize PyMongo to work with MongoDBs
-    conn = 'mongodb://localhost:27017'
-    client = pymongo.MongoClient(conn)
+    
+    
     db = client.bike_data_db
     collection = db.bike_trip
-    # Drop everything before insertion    
-    collection.drop()
-    db.bike_rental.drop()
-    db.la_boundary.drop()
+    
     # load json string
     items_db = json.loads(items)
     print("Inserting records into db...")
     db.bike_trip.insert_many(items_db)
     item_count = collection.count_documents({})
     print(f"{item_count} records inserted into db!")
+
+def load_mongo_db():
+    db = client.bike_data_db
+    collection = db.bike_trip
     
+    # Drop everything before insertion    
+    collection.drop()
+    db.bike_rental.drop()
+    db.la_boundary.drop()
+    
+    #load_bike_data_db("data/metro-bike-share-trips-2018-q1.csv")
+    #load_bike_data_db("data/metro-bike-share-trips-2018-q2.csv")
+    load_bike_data_db("data/metro-bike-share-trips-2018-q3.csv")
+
     # Upload bike_rental
     print("Upload Bike Rental")
     db = client.bike_data_db
