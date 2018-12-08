@@ -17,9 +17,10 @@ d3.json(url).then(function(data) {
 		initData();
 		buildLiveStatus(data.features[0].kioskId);
 	});
-	
-#### Code to call the API route and create the plot based on data returned 
+```
 
+#### Code to call the API route and create the plot based on data returned 
+```javascript
 function getData(station_name){
 	var station_name = d3.select("#station_dropdownSelect").property("value");
 	var week_day = d3.select("#day_dropdownSelect").property("value");
