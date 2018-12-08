@@ -1,6 +1,79 @@
 
 # Index
 # Dashboard
+### JS Code:
+#### Code to load data from geojson live stations to populate the dropdown
+d3.json(url).then(function(data) {
+		var select = document.getElementById("station_dropdownSelect");
+		select.innerHTML = "";
+
+		data.features.forEach(data => {
+			//console.log(data)
+			select.innerHTML += "<option value=\"" + data.properties.kioskId + "\">" + data.properties.name + "</option>";
+		});
+		//console.log("Hi");
+		initData();
+		buildLiveStatus(data.features[0].kioskId);
+	});
+#### Code to call the API route and create the plot based on data returned 
+function getData(station_name){
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
+		
+			var x_labels = data.map(function(d) { return +d.time_slices}); 
+			var y_labels = data.map(function(d) { return +d.duration});
+		
+			Plotly.restyle("graph", "x", [x_labels]);
+			Plotly.restyle("graph", "y", [y_labels]);
+	})
+	buildLiveStatus();
+}
+
+function WeekDayData(week_day){
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
+		
+			var x_labels = data.map(function(d) { return +d.time_slices}); 
+			var y_labels = data.map(function(d) { return +d.duration});
+		
+			Plotly.restyle("graph", "x", [x_labels]);
+			Plotly.restyle("graph", "y", [y_labels]);
+		});
+}
+
+### HTML Dropdowns:
+<select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
+</select>
+
+<select name="dayDropdown" id="day_dropdownSelect" onchange="WeekDayData(this.value)"> 
+                <option value ="Monday">Monday</option>
+                <option value ="Tuesday">Tuesday</option>
+                <option value ="Wednesday">Wednesday</option>
+                <option value ="Thursday">Thursday</option>
+                <option value ="Friday">Friday</option>
+                <option value ="Saturday">Saturday</option>
+                <option value ="Sunday">Sunday</option>
+ </select> 
+ 
+### Flask app route:
+@app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
+def day_dashboard(station_name, week_day):
+
+	db = client.bike_data_db
+	collection = db.bike_trip.find({"$and":[{"start_station": int(station_name)},{"weekday": str(week_day)}]} )
+	trips = []
+	for trip in collection:
+	 	trips.append(trip)
+	df_filtered = pd.DataFrame(trips)
+
+	df_filtered["time_slices"] = [datetime.strptime(time_sl, "%H:%M:%S").strftime("%H") for time_sl in df_filtered["start_time"]]
+	df_grouped = df_filtered.groupby("time_slices")["duration"].sum()
+	df_grouped = df_grouped.reset_index()
+	df_grouped = df_grouped.sort_values("time_slices")	
+	return df_grouped.to_json(orient='records')
+	
 # Citi Bike
 # Using mapbox API to route between two points
 	function getRoute() {
