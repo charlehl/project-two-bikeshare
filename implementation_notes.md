@@ -4,6 +4,7 @@
 ### JS Code:
 #### Code to load data from geojson live stations to populate the dropdown
 
+```javascript
 d3.json(url).then(function(data) {
 		var select = document.getElementById("station_dropdownSelect");
 		select.innerHTML = "";
@@ -45,9 +46,9 @@ function WeekDayData(week_day){
 			Plotly.restyle("graph", "y", [y_labels]);
 		});
 }
-
+```
 ### HTML Dropdowns:
-
+```html
 <select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
 </select>
 
@@ -60,9 +61,10 @@ function WeekDayData(week_day){
                 <option value ="Saturday">Saturday</option>
                 <option value ="Sunday">Sunday</option>
  </select> 
- 
+ ```
 ### Flask app route:
 
+```python
 @app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
 def day_dashboard(station_name, week_day):
 
@@ -78,7 +80,8 @@ def day_dashboard(station_name, week_day):
 	df_grouped = df_grouped.reset_index()
 	df_grouped = df_grouped.sort_values("time_slices")	
 	return df_grouped.to_json(orient='records')
-	
+```
+
 # Citi Bike
 # Using mapbox API to route between two points
 	function getRoute() {
