@@ -17,7 +17,7 @@ d3.json(url).then(function(data) {
 	});
 ```
 
-#### Code to call the API route and create the plot based on data returned 
+#### Code to call the API route and create the plot based on returned data
 ```javascript
 function getData(station_name){
 	var station_name = d3.select("#station_dropdownSelect").property("value");
