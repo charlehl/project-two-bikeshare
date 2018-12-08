@@ -1,88 +1,87 @@
 
-# How to Pass Data between javascript and python flask
-## HTML
-	<form  action="" method="post">
-	  <div>
-	    <label for="start">Enter start date:</label>
-	    <input type="date" id="start-date" name="start-date" min="2018-07-01" max="2018-08-31" value="2018-07-01">
-	  </div>
-	  <div>
-	    <label for="end">Enter end date:</label>
-	    <input type="date" id="end-date" name="end-date" min="2018-07-02" value="2018-07-31">
-	  </div>
-	  <div>
-	    <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
-	  </div>
-	</form> 
+# Index
+# Dashboard
+### HTML Dropdowns:
+```html
+<select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
+</select>
 
-## Javascript
-	$('#heat-form-submit').on('click', function(e){
-	  e.preventDefault();
-	  var start = $('input#start-date').val(),
-	       end = $('input#end-date').val();
+<select name="dayDropdown" id="day_dropdownSelect" onchange="WeekDayData(this.value)"> 
+                <option value ="Monday">Monday</option>
+                <option value ="Tuesday">Tuesday</option>
+                <option value ="Wednesday">Wednesday</option>
+                <option value ="Thursday">Thursday</option>
+                <option value ="Friday">Friday</option>
+                <option value ="Saturday">Saturday</option>
+                <option value ="Sunday">Sunday</option>
+ </select> 
+ ```
+### JS Code:
+#### Code to load data from geojson live stations to populate the dropdown
 
-	  var formData = 'start-date=' + start + '&end-date=' + end;
+```javascript
+d3.json(url).then(function(data) {
+		var select = document.getElementById("station_dropdownSelect");
+		select.innerHTML = "";
 
-	   $.ajax({
-	     type: 'post',
-	     url: '/api/getHeatData',
-	     data: formData,
-	     success: function(results) {
-	       //console.log(results);
-	       var stationCount = results.reduce(function (allNames, name){
-		if(name.start_station in allNames) {
-		  allNames[name.start_station]++;
-		}
-		else {
-		  allNames[name.start_station]=1;
-		}
-		return allNames;
-	       });
-	       console.log(stationCount);
-	       link = "https://bikeshare.metro.net/stations/json/";
-	       var stationData = d3.json(link).then(async function(data) {
-		var testData = {max: 8,
-				data: []
-			      };
-		data.features.forEach((item)=> {
-		  testData.data.push({lat: item.properties.latitude, lng: item.properties.longitude, count: stationCount[item.properties.kioskId]});
+		data.features.forEach(data => {
+			select.innerHTML += "<option value=\"" + data.properties.kioskId + "\">" + data.properties.name + "</option>";
 		});
-		return testData;
-		//console.log(results);
-	       });
-	       //console.log(stationData);
+	});
+```
 
-	       stationData.then(data => {
-		console.log(data);
+#### Code to call the API route and create the plot based on returned data
+```javascript
+function getData(station_name){
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
+		
+			var x_labels = data.map(function(d) { return +d.time_slices}); 
+			var y_labels = data.map(function(d) { return +d.duration});
+		
+			Plotly.restyle("graph", "x", [x_labels]);
+			Plotly.restyle("graph", "y", [y_labels]);
+	})
+	buildLiveStatus();
+}
+
+function WeekDayData(week_day){
+	var station_name = d3.select("#station_dropdownSelect").property("value");
+	var week_day = d3.select("#day_dropdownSelect").property("value");
+		d3.json(`/dashboard/${station_name}/${week_day}`).then(function(data){
+		
+			var x_labels = data.map(function(d) { return +d.time_slices}); 
+			var y_labels = data.map(function(d) { return +d.duration});
+		
+			Plotly.restyle("graph", "x", [x_labels]);
+			Plotly.restyle("graph", "y", [y_labels]);
 		});
+}
+```
+### Flask app route:
 
-## Flask portion
-	@app.route("/api/getHeatData", methods=["GET", "POST"])
-	def stations():
-		if request.method == "POST":
-			start_date = request.form["start-date"]
-			end_date = request.form["end-date"]
+```python
+@app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
+def day_dashboard(station_name, week_day):
 
-			return(newplots(start_date, end_date))
+	db = client.bike_data_db
+	collection = db.bike_trip.find({"$and":[{"start_station": int(station_name)},{"weekday": str(week_day)}]} )
+	trips = []
+	for trip in collection:
+	 	trips.append(trip)
+	df_filtered = pd.DataFrame(trips)
 
-		return render_template("index.html")
+	df_filtered["time_slices"] = [datetime.strptime(time_sl, "%H:%M:%S").strftime("%H") for time_sl in df_filtered["start_time"]]
+	df_grouped = df_filtered.groupby("time_slices")["duration"].sum()
+	df_grouped = df_grouped.reset_index()
+	df_grouped = df_grouped.sort_values("time_slices")	
+	return df_grouped.to_json(orient='records')
+```
 
-# Heroku App Deployment issues
-- Populating and connecting to database
-- Unable to pull json data from non-secure links
-- Performance issues
-
-## Populating and connecting to database
-### How to dump and restore data to a mongodb
-	mongodump -h localhost:27017 -d bike_data_db -o dump_dir
-	mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
-## Unable to pull json data from non-secure links
-Pre-pulled data and uploaded to mongoDB.  Used flask app to pull data instead.
-
-## Performance issues
-Too slow querying 90k+ data then aggregating and sending to javascript.  Instead pre-queried data possibilities and saved to mongoDB.
-
+# Citi Bike
 # Using mapbox API to route between two points
+```javascript
 	function getRoute() {
 	  //console.log(myLocationCoords);
 	  if(myLocationCoords.length >= 1 && stationArray.length >= 1) {
@@ -134,8 +133,9 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	  // this is where the code from the next step will go
 	  clearLocations();
 	}
-
+```
 # Locating Yourself on Map
+```javascript
 	// Function set to button on html to locate yourself
 	function getLocation() {
 	  myMap.locate({setView: true, maxZoom: 16});
@@ -161,11 +161,18 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	}
 	// Monitor event for location found
 	myMap.on('locationfound', onLocationFound);
-
+```
 # Bike Share Charts
+<<<<<<< HEAD
 ## Addressing report display speed
 ### Original version: 
 ##### Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
+=======
+### Addressing report display speed
+#### Original version: 
+##### Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
+```python
+>>>>>>> 6b38c595795d0c6fea430da6120b6407baf8819a
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -187,9 +194,16 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 	weekday_df = index_reset.sort_values('weekday')
 
 	return weekday_df.to_json(orient='records')
+<<<<<<< HEAD
 
 ### Optimized version: 
 ##### Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
+=======
+```
+#### Optimized version: 
+##### Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
+```python
+>>>>>>> 6b38c595795d0c6fea430da6120b6407baf8819a
 	db = client.bike_data_db
 	bike_trip = db.bike_rental.find()
 	
@@ -201,13 +215,100 @@ Too slow querying 90k+ data then aggregating and sending to javascript.  Instead
 			return(jsonify(item[pass_type]))
 	
 	return(jsonify(bike_trip[0][pass_type]))
-
-
-# Data Structures
-## Dashboard
+```
+# Miscellaneous
+## Data Structures
+### Dashboard
 https://bike-test.herokuapp.com/stacked/3005
+
 https://bike-test.herokuapp.com/dashboard/3005
-## Bike Chart
+### Bike Chart
 https://bike-test.herokuapp.com/pie_data
-## Citi Bike App
+### Citi Bike App
 https://bike-test.herokuapp.com/bike_boundary
+
+# How to Pass Data between javascript and python flask
+## HTML
+```html
+	<form  action="" method="post">
+	  <div>
+	    <label for="start">Enter start date:</label>
+	    <input type="date" id="start-date" name="start-date" min="2018-07-01" max="2018-08-31" value="2018-07-01">
+	  </div>
+	  <div>
+	    <label for="end">Enter end date:</label>
+	    <input type="date" id="end-date" name="end-date" min="2018-07-02" value="2018-07-31">
+	  </div>
+	  <div>
+	    <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
+	  </div>
+	</form> 
+```
+## Javascript
+```javascript
+	$('#heat-form-submit').on('click', function(e){
+	  e.preventDefault();
+	  var start = $('input#start-date').val(),
+	       end = $('input#end-date').val();
+
+	  var formData = 'start-date=' + start + '&end-date=' + end;
+
+	   $.ajax({
+	     type: 'post',
+	     url: '/api/getHeatData',
+	     data: formData,
+	     success: function(results) {
+	       //console.log(results);
+	       var stationCount = results.reduce(function (allNames, name){
+		if(name.start_station in allNames) {
+		  allNames[name.start_station]++;
+		}
+		else {
+		  allNames[name.start_station]=1;
+		}
+		return allNames;
+	       });
+	       console.log(stationCount);
+	       link = "https://bikeshare.metro.net/stations/json/";
+	       var stationData = d3.json(link).then(async function(data) {
+		var testData = {max: 8,
+				data: []
+			      };
+		data.features.forEach((item)=> {
+		  testData.data.push({lat: item.properties.latitude, lng: item.properties.longitude, count: stationCount[item.properties.kioskId]});
+		});
+		return testData;
+		//console.log(results);
+	       });
+	       //console.log(stationData);
+
+	       stationData.then(data => {
+		console.log(data);
+		});
+```
+## Flask portion
+```python
+	@app.route("/api/getHeatData", methods=["GET", "POST"])
+	def stations():
+		if request.method == "POST":
+			start_date = request.form["start-date"]
+			end_date = request.form["end-date"]
+
+			return(newplots(start_date, end_date))
+
+		return render_template("index.html")
+```
+# Heroku App Deployment issues
+- Populating and connecting to database
+- Unable to pull json data from non-secure links
+- Performance issues
+
+## Populating and connecting to database
+### How to dump and restore data to a mongodb
+	mongodump -h localhost:27017 -d bike_data_db -o dump_dir
+	mongorestore -h ds225294.mlab.com:25294 -d heroku_9cs4xj21 -u <user_name> -p <password> --authenticationDatabase heroku_9cs4xj21 dump_dir/*
+## Unable to pull json data from non-secure links
+Pre-pulled data and uploaded to mongoDB.  Used flask app to pull data instead.
+
+## Performance issues
+Too slow querying 90k+ data then aggregating and sending to javascript.  Instead pre-queried data possibilities and saved to mongoDB.
