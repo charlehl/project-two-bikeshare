@@ -12,8 +12,6 @@ d3.json(url).then(function(data) {
 		data.features.forEach(data => {
 			select.innerHTML += "<option value=\"" + data.properties.kioskId + "\">" + data.properties.name + "</option>";
 		});
-		initData();
-		buildLiveStatus(data.features[0].kioskId);
 	});
 ```
 
