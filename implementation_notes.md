@@ -1,6 +1,21 @@
 
 # Index
 # Dashboard
+### HTML Dropdowns:
+```html
+<select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
+</select>
+
+<select name="dayDropdown" id="day_dropdownSelect" onchange="WeekDayData(this.value)"> 
+                <option value ="Monday">Monday</option>
+                <option value ="Tuesday">Tuesday</option>
+                <option value ="Wednesday">Wednesday</option>
+                <option value ="Thursday">Thursday</option>
+                <option value ="Friday">Friday</option>
+                <option value ="Saturday">Saturday</option>
+                <option value ="Sunday">Sunday</option>
+ </select> 
+ ```
 ### JS Code:
 #### Code to load data from geojson live stations to populate the dropdown
 
@@ -44,21 +59,6 @@ function WeekDayData(week_day){
 		});
 }
 ```
-### HTML Dropdowns:
-```html
-<select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
-</select>
-
-<select name="dayDropdown" id="day_dropdownSelect" onchange="WeekDayData(this.value)"> 
-                <option value ="Monday">Monday</option>
-                <option value ="Tuesday">Tuesday</option>
-                <option value ="Wednesday">Wednesday</option>
-                <option value ="Thursday">Thursday</option>
-                <option value ="Friday">Friday</option>
-                <option value ="Saturday">Saturday</option>
-                <option value ="Sunday">Sunday</option>
- </select> 
- ```
 ### Flask app route:
 
 ```python
