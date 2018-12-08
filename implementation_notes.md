@@ -10,10 +10,8 @@ d3.json(url).then(function(data) {
 		select.innerHTML = "";
 
 		data.features.forEach(data => {
-			//console.log(data)
 			select.innerHTML += "<option value=\"" + data.properties.kioskId + "\">" + data.properties.name + "</option>";
 		});
-		//console.log("Hi");
 		initData();
 		buildLiveStatus(data.features[0].kioskId);
 	});
