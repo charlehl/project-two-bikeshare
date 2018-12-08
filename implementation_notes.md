@@ -3,6 +3,7 @@
 # Dashboard
 ### JS Code:
 #### Code to load data from geojson live stations to populate the dropdown
+
 d3.json(url).then(function(data) {
 		var select = document.getElementById("station_dropdownSelect");
 		select.innerHTML = "";
@@ -15,7 +16,9 @@ d3.json(url).then(function(data) {
 		initData();
 		buildLiveStatus(data.features[0].kioskId);
 	});
+	
 #### Code to call the API route and create the plot based on data returned 
+
 function getData(station_name){
 	var station_name = d3.select("#station_dropdownSelect").property("value");
 	var week_day = d3.select("#day_dropdownSelect").property("value");
@@ -44,6 +47,7 @@ function WeekDayData(week_day){
 }
 
 ### HTML Dropdowns:
+
 <select name="dropdownSelect" id="station_dropdownSelect" onchange="getData(this.value)"> 
 </select>
 
@@ -58,6 +62,7 @@ function WeekDayData(week_day){
  </select> 
  
 ### Flask app route:
+
 @app.route("/dashboard/<station_name>/<week_day>", methods=['GET', 'POST'])
 def day_dashboard(station_name, week_day):
 
