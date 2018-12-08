@@ -81,6 +81,7 @@ def day_dashboard(station_name, week_day):
 
 # Citi Bike
 # Using mapbox API to route between two points
+```javascript
 	function getRoute() {
 	  //console.log(myLocationCoords);
 	  if(myLocationCoords.length >= 1 && stationArray.length >= 1) {
@@ -132,8 +133,9 @@ def day_dashboard(station_name, week_day):
 	  // this is where the code from the next step will go
 	  clearLocations();
 	}
-
+```
 # Locating Yourself on Map
+```javascript
 	// Function set to button on html to locate yourself
 	function getLocation() {
 	  myMap.locate({setView: true, maxZoom: 16});
@@ -159,11 +161,12 @@ def day_dashboard(station_name, week_day):
 	}
 	// Monitor event for location found
 	myMap.on('locationfound', onLocationFound);
-
+```
 # Bike Share Charts
 ### Addressing report display speed
 #### Original version: 
 ##### Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
+```python
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -185,9 +188,10 @@ def day_dashboard(station_name, week_day):
 	weekday_df = index_reset.sort_values('weekday')
 
 	return weekday_df.to_json(orient='records')
-
+```
 #### Optimized version: 
 ##### Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
+```python
 	db = client.bike_data_db
 	bike_trip = db.bike_rental.find()
 	
@@ -199,7 +203,7 @@ def day_dashboard(station_name, week_day):
 			return(jsonify(item[pass_type]))
 	
 	return(jsonify(bike_trip[0][pass_type]))
-
+```
 # Miscellaneous
 ## Data Structures
 ### Dashboard
@@ -213,6 +217,7 @@ https://bike-test.herokuapp.com/bike_boundary
 
 # How to Pass Data between javascript and python flask
 ## HTML
+```html
 	<form  action="" method="post">
 	  <div>
 	    <label for="start">Enter start date:</label>
@@ -226,8 +231,9 @@ https://bike-test.herokuapp.com/bike_boundary
 	    <input id="heat-form-submit" type="submit" value="Generate Heat Map" />
 	  </div>
 	</form> 
-
+```
 ## Javascript
+```javascript
 	$('#heat-form-submit').on('click', function(e){
 	  e.preventDefault();
 	  var start = $('input#start-date').val(),
@@ -267,8 +273,9 @@ https://bike-test.herokuapp.com/bike_boundary
 	       stationData.then(data => {
 		console.log(data);
 		});
-
+```
 ## Flask portion
+```python
 	@app.route("/api/getHeatData", methods=["GET", "POST"])
 	def stations():
 		if request.method == "POST":
@@ -278,7 +285,7 @@ https://bike-test.herokuapp.com/bike_boundary
 			return(newplots(start_date, end_date))
 
 		return render_template("index.html")
-
+```
 # Heroku App Deployment issues
 - Populating and connecting to database
 - Unable to pull json data from non-secure links
