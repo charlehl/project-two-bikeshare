@@ -84,7 +84,8 @@
 
 # Bike Share Charts
 ### Addressing report display speed
-#### Original version: Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
+#### Original version: 
+##### Retrived MongoDB in Python Flask filtered, grouped and then sent requested information to JavaScript
 	db = client.bike_data_db
 
 	bike_trip = db.bike_trip.find()
@@ -107,7 +108,8 @@
 
 	return weekday_df.to_json(orient='records')
 
-#### Optimized version: Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
+#### Optimized version: 
+##### Filtered and grouped the MongoDB and created a new collection with only necessary data points to be ploted. This new collection was then retrieved in Python Flask filtered with the request received then sent to JavaScript
 	db = client.bike_data_db
 	bike_trip = db.bike_rental.find()
 	
