@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bike Share Charts</title>
+        <!--<script src="https://d3js.org/d3.v4.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+  <body>
+
+
+  <div class="container-fluid">
+        <!-- NAVBAR
+    ================================================== -->
+      <div class="row">
+        <div class="navbar-wrapper">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <nav class="navbar navbar-inverse navbar-static-top">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Home</a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                  <li><a href="dashboard.html">Dashboard</a></li>
+                  <li><a href="citibike.html">Citi Bike App</a></li>
+                  <li><a href="bikecharts.html">Bikecharts</a></li> 
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- End of NAVBAR
+      ================================================== -->  
+
+      <div class="row">
+       <div class="col-md-12 jumbotron text-center">
+         <h2>Bike Usage Volume by Pass Type</h2>
+      </div>
+    </div>
+      
+    <div class="row"> 
+      <div class="col-md-2">  
+      <label for="sel1">Pass Type:</label>  
+      <select class="btn btn-primary dropdown-toggle" name="dropdownSelect" id="dropdownSelect" onchange="bar_data(this.value)"> 
+          <option value="One Day Pass">One Day Pass</option>
+          <option value="Monthly Pass">Monthly Pass</option>
+          <option value="Walk-up">Walk Up</option>
+          <option value="Flex Pass">Flex Pass</option>
+      </select>
+      </div>  
+    </div>    
+
+      <div class="row">
+        <div class="col-md-12">
+            <div id="passBar"></div>
+        </div>
+      </div>  
+      <div class="row">
+         <div class="col-md-12">
+            <div id="passPie"></div>
+        </div>
+      </div>  
+    </div>
+  </div>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>  
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="/static/js/bikecharts.js"></script>
+
+
+</body>
+
+</html>
+
