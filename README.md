@@ -3,9 +3,11 @@
 We will be analyzing data obtained from bikeshare for Los Angeles area.  We will be looking at the live json status
 from bike stations as well as the customer data for Q3-2018.
 
-## Websites
-https://bikeshare.metro.net/stations/json/
+## App deployment
+https://bike-test.herokuapp.com/
 
+## Reference Websites
+https://bikeshare.metro.net/stations/json/
 https://bikeshare.metro.net/about/data/
 
 ## Navigation
